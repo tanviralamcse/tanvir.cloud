@@ -2,7 +2,10 @@
 """Django's command-line utility for administrative tasks."""
 import os
 import sys
+from django.core.wsgi import get_wsgi_application
 
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'myproject.settings')  # Replace 'myproject' with your project name
+app = get_wsgi_application()  # This is the WSGI application entry point
 
 def main():
     """Run administrative tasks."""
