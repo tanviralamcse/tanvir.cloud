@@ -13,7 +13,7 @@ SECRET_KEY = "django-insecure-4&6z4hz((mumc8pzbf%1&mei!e$8l(+c%uhw74x@w^z9i@fznv
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['tanvir.cloud', '127.0.0.1', 'localhost', 'https://tanvir.cloud', '.vercel.app' ]
 
 
 # Application definition
