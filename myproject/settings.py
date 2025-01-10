@@ -1,13 +1,21 @@
 from pathlib import Path
 import os
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Static files (CSS, JavaScript, images)
 STATIC_URL = '/static/'
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
+# Directories to search for additional static files (e.g., user-uploaded static files)
+STATICFILES_DIRS = [
+    BASE_DIR / 'static',  # This will point to the 'static' folder in the base directory
+]
 
-# SECURITY WARNING: keep the secret key used in production secret!
+# The absolute path where static files will be collected to during the build process
+STATIC_ROOT = BASE_DIR / 'staticfiles'  # This matches the route in your vercel.json
+
+
 SECRET_KEY = "django-insecure-4&6z4hz((mumc8pzbf%1&mei!e$8l(+c%uhw74x@w^z9i@fznv"
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -107,12 +115,10 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),  # This will point to the 'static' folder in the base directory
-]
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+DEBUG = False
