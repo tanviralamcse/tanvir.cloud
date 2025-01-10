@@ -1,0 +1,41 @@
+# Python bytecode and virtual environments
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pdb
+*.egg
+*.egg-info/
+.eggs/
+venv/
+ENV/
+env/
+*.env
+
+# Django specific files
+db.sqlite3
+*.log
+staticfiles/
+media/
+local_settings.py
+
+# Vercel-specific files
+.vercel/
+.vercel_build_output/
+
+# Node.js specific files (if any)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Operating system specific files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor specific files
+.vscode/
+.idea/
+*.swp
+*~

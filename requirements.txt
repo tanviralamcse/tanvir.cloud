@@ -5,3 +5,4 @@ isort==5.13.2
 packaging==24.2
 sqlparse==0.5.3
 typing_extensions==4.12.2
+whitenoise==6.8.2
