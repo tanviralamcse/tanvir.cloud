@@ -12,11 +12,12 @@
   "routes": [
     {
       "src": "/static/(.*)",
-      "dest": "/staticfiles/(.*)"
+      "dest": "/staticfiles/$1"
     },
     {
       "src": "/(.*)",
       "dest": "manage.py"
     }
-  ]
+  ],
+  "buildCommand": "python manage.py collectstatic --noinput"
 }
