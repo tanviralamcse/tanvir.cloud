@@ -1,11 +1,14 @@
 {
-  "version": 2,
   "builds": [
     {
-      "src": "manage.py",
-      "use": "@vercel/python",
+      "src": "myproject/wsgi.py",
+      "use": "@vercel/python"
+    },
+    {
+      "src": "build.sh",
+      "use": "@vercel/static-build",
       "config": {
-        "maxLambdaSize": "15mb"
+        "distDir": "staticfiles"
       }
     }
   ],
@@ -16,9 +19,7 @@
     },
     {
       "src": "/(.*)",
-      "dest": "manage.py"
+      "dest": "myproject/wsgi.py"
     }
-  ],
-  "buildCommand": "python manage.py collectstatic --noinput",
-  "outputDirectory": "staticfiles_build"
+  ]
 }

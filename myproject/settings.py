@@ -4,25 +4,11 @@ import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Static files (CSS, JavaScript, images)
-STATIC_URL = '/static/'
-
-# Directories to search for additional static files (e.g., user-uploaded static files)
-STATICFILES_DIRS = [
-    BASE_DIR / 'static',  # This will point to the 'static' folder in the base directory
-]
-
-# The absolute path where static files will be collected to during the build process
-STATIC_ROOT = BASE_DIR / 'staticfiles'  # This matches the route in your vercel.json
-
 
 SECRET_KEY = "django-insecure-4&6z4hz((mumc8pzbf%1&mei!e$8l(+c%uhw74x@w^z9i@fznv"
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
 
-ALLOWED_HOSTS = ['tanvir.cloud', '127.0.0.1', 'localhost', 'https://tanvir.cloud', '.vercel.app' ]
-
+ALLOWED_HOSTS = ['tanvir.cloud', '127.0.0.1', 'localhost', '.vercel.app']
 
 # Application definition
 
@@ -38,16 +24,15 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",  # Add WhiteNoise Middleware
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "whitenoise.middleware.WhiteNoiseMiddleware",  # Add WhiteNoise Middleware
     "django.middleware.security.SecurityMiddleware",
 ]
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 ROOT_URLCONF = "myproject.urls"
 
@@ -115,7 +100,10 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [BASE_DIR / 'static']
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
