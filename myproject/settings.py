@@ -8,7 +8,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-4&6z4hz((mumc8pzbf%1&mei!e$8l(+c%uhw74x@w^z9i@fznv"
 
 
-ALLOWED_HOSTS = ['tanvir.cloud', '127.0.0.1', 'localhost', '.vercel.app']
+ALLOWED_HOSTS = ['tanvir.cloud', '127.0.0.1', 'localhost', '.vercel.app',  '.now.sh']
 
 # Application definition
 
@@ -101,8 +101,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [BASE_DIR / 'static']  # Custom static files directory
-STATIC_ROOT = BASE_DIR / 'staticfiles'   # Directory where collectstatic places files
+STATICFILES_DIRS = os.path.join(BASE_DIR, 'static'),
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles_build', 'static')
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 
