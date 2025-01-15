@@ -13,6 +13,10 @@
     {
       "src": "myproject/wsgi.py",
       "use": "@vercel/python"
+    },
+    {
+      "src": "static/**/*",
+      "use": "@vercel/static"
     }
   ]
 }
