@@ -8,5 +8,11 @@
       "src": "/(.*)",
       "dest": "myproject/wsgi.py"
     }
+  ],
+  "builds": [
+    {
+      "src": "myproject/wsgi.py",
+      "use": "@vercel/python"
+    }
   ]
 }
