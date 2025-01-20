@@ -1,0 +1,454 @@
+{% extends 'htmlfiles/base.html' %} {% block content %} {% load static %}
+<div class="container my-5">
+  <h2 class="text-center">CV Form</h2>
+  <form action="#" method="POST">
+    <!-- Personal Information Section -->
+    <div class="mb-4 border border-primary px-3 py-2">
+      <h4>Personal Information</h4>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="mb-3">
+            <label for="first_name" class="form-label">First Name</label>
+            <input
+              type="text"
+              class="form-control"
+              id="first_name"
+              placeholder="John"
+            />
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="mb-3">
+            <label for="last_name" class="form-label">Last Name</label>
+            <input
+              type="text"
+              class="form-control"
+              id="last_name"
+              placeholder="Doe"
+            />
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input
+              type="email"
+              class="form-control"
+              id="email"
+              placeholder="john.doe@example.com"
+            />
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="mb-3">
+            <label for="phone" class="form-label">Phone Number</label>
+            <input
+              type="tel"
+              class="form-control"
+              id="phone"
+              placeholder="123-456-7890"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Education Section -->
+    <div class="mb-4 border border-primary px-3 py-2">
+      <div class="education-entry">
+        <h5>Education</h5>
+        <div class="row">
+          <div class="col-md-6">
+            <label for="degree" class="form-label">Degree</label>
+            <input
+              type="text"
+              class="form-control"
+              id="degree"
+              name="education_degree[]"
+              placeholder="e.g., B.Sc. in Computer Science"
+            />
+          </div>
+          <div class="col-md-6">
+            <label for="institution" class="form-label">Institution</label>
+            <input
+              type="text"
+              class="form-control"
+              id="institution"
+              name="education_institution[]"
+              placeholder="e.g., University Name"
+            />
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <label for="start-date" class="form-label">Start Date</label>
+            <input
+              type="date"
+              class="form-control"
+              id="start-date"
+              name="education_start_date[]"
+            />
+          </div>
+          <div class="col-md-6">
+            <label for="end-date" class="form-label">End Date</label>
+            <input
+              type="date"
+              class="form-control"
+              id="end-date"
+              name="education_end_date[]"
+            />
+          </div>
+        </div>
+        <button type="button" class="btn btn-danger mt-3 remove-education">
+          Delete
+        </button>
+        <hr class="my-3" />
+      </div>
+
+      <button type="button" class="btn btn-secondary" id="add-education">
+        Add More Education
+      </button>
+    </div>
+
+    <!-- Work Experience Section -->
+    <div class="mb-4 border border-primary px-3 py-2">
+      <div class="experience-entry">
+        <h5>Experience</h5>
+        <div class="row">
+          <div class="col-md-6">
+            <label for="job-title" class="form-label">Job Title</label>
+            <input
+              type="text"
+              class="form-control"
+              id="job-title"
+              name="experience_title[]"
+              placeholder="e.g., Software Engineer"
+            />
+          </div>
+          <div class="col-md-6">
+            <label for="company" class="form-label">Company</label>
+            <input
+              type="text"
+              class="form-control"
+              id="company"
+              name="experience_company[]"
+              placeholder="e.g., Google"
+            />
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <label for="start-date-exp" class="form-label">Start Date</label>
+            <input
+              type="date"
+              class="form-control"
+              id="start-date-exp"
+              name="experience_start_date[]"
+            />
+          </div>
+          <div class="col-md-6">
+            <label for="end-date-exp" class="form-label">End Date</label>
+            <input
+              type="date"
+              class="form-control"
+              id="end-date-exp"
+              name="experience_end_date[]"
+            />
+          </div>
+        </div>
+        <button type="button" class="btn btn-danger mt-3 remove-experience">
+          Delete
+        </button>
+        <hr class="my-3" />
+      </div>
+
+      <button type="button" class="btn btn-secondary" id="add-experience">
+        Add More Experience
+      </button>
+    </div>
+
+    <!-- Skills Section -->
+    <div class="mb-4 border border-primary px-3 py-2">
+      <h4>Skills</h4>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="mb-3">
+            <label for="skills" class="form-label">Skills</label>
+            <input
+              type="text"
+              class="form-control"
+              id="skills"
+              placeholder="Programming Languages, Tools, etc."
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Contact Information Section -->
+    <div class="mb-4 border border-primary px-3 py-2">
+      <h4>Contact Information</h4>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="mb-3">
+            <label for="address" class="form-label">Address</label>
+            <input
+              type="text"
+              class="form-control"
+              id="address"
+              placeholder="123 Main Street"
+            />
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="mb-3">
+            <label for="city" class="form-label">City</label>
+            <input
+              type="text"
+              class="form-control"
+              id="city"
+              placeholder="New York"
+            />
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="mb-3">
+            <label for="state" class="form-label">State</label>
+            <input
+              type="text"
+              class="form-control"
+              id="state"
+              placeholder="NY"
+            />
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="mb-3">
+            <label for="zip_code" class="form-label">Zip Code</label>
+            <input
+              type="text"
+              class="form-control"
+              id="zip_code"
+              placeholder="10001"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="border border-primary px-3 py-2">
+      <h2>Select Template</h2>
+      <div class="row">
+        <div class="col-md-4 mb-3">
+          <div class="card card-select" data-template="Template 1">
+            <img
+              src="{% static 'cvmaker/img/tem1.jpg'%}"
+              class="card-img-top"
+              alt="Template 1"
+              style="height: 200px; object-fit: cover"
+            />
+            <div class="card-body">
+              <h5 class="card-title">Template 1</h5>
+              <a
+                href="{% static 'cvmaker/img/tem1.jpg' %}"
+                class="btn btn-primary"
+                target="_blank"
+                >View Demo</a
+              >
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4 mb-3">
+          <div class="card card-select" data-template="Template 2">
+            <img
+              src="{% static 'cvmaker/img/tem2.jpg' %}"
+              class="card-img-top"
+              alt="Template 2"
+              style="height: 200px; object-fit: cover"
+            />
+            <div class="card-body">
+              <h5 class="card-title">Template 2</h5>
+              <a
+                href="{% static 'cvmaker/img/tem2.jpg' %}"
+                target="_blank"
+                class="btn btn-primary"
+                >View Demo</a
+              >
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4 mb-3">
+          <div class="card card-select" data-template="Template 3">
+            <img
+              src="{% static 'cvmaker/img/tem3.jpg' %}"
+              class="card-img-top"
+              alt="Template 3"
+              style="height: 200px; object-fit: cover"
+            />
+            <div class="card-body">
+              <h5 class="card-title">Template 3</h5>
+              <a
+                href="{% static 'cvmaker/img/tem2.jpg' %}"
+                target="_blank"
+                class="btn btn-primary"
+                >View Demo</a
+              >
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4 mb-3">
+          <div class="card card-select" data-template="Template 4">
+            <img
+              src="{% static 'cvmaker/img/tem4.jpg' %}"
+              class="card-img-top"
+              alt="Template 4"
+              style="height: 200px; object-fit: cover"
+            />
+            <div class="card-body">
+              <h5 class="card-title">Template 4</h5>
+              <a
+                href="{% static 'cvmaker/img/tem4.jpg' %}"
+                target="_blank"
+                class="btn btn-primary"
+                >View Demo</a
+              >
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4 mb-3">
+          <div class="card card-select" data-template="Template 5">
+            <img
+              src="{% static 'cvmaker/img/tem5.jpg' %}"
+              class="card-img-top"
+              alt="Template 5"
+              style="height: 200px; object-fit: cover"
+            />
+            <div class="card-body">
+              <h5 class="card-title">Template 5</h5>
+              <a
+                href="{% static 'cvmaker/img/tem5.jpg' %}"
+                target="_blank"
+                class="btn btn-primary"
+                >View Demo</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="d-flex justify-content-center pt-5">
+      <button disabled type="submit" class="btn btn-primary">Submit</button>
+    </div>
+  </form>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  function showWarning(message) {
+    // Create a warning alert dynamically
+    const warningAlert = document.createElement('div');
+    warningAlert.className =
+      'alert alert-warning position-fixed top-0 start-50 translate-middle-x';
+    warningAlert.style.zIndex = 1050; // Ensure it's on top
+    warningAlert.innerText = message;
+
+    // Append it to the body
+    document.body.appendChild(warningAlert);
+
+    // Remove after 3 seconds
+    setTimeout(() => {
+      warningAlert.remove();
+    }, 3000);
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    document.addEventListener('click', (e) => {
+      if (e.target && e.target.classList.contains('remove-education')) {
+        const educationSection =
+          document.querySelector('.education-entry').parentNode;
+        const educationEntries =
+          educationSection.querySelectorAll('.education-entry');
+
+        // If only one entry remains, show a warning and prevent deletion
+        if (educationEntries.length === 1) {
+          showWarning('You cannot delete the initial education entry.');
+        } else {
+          e.target.closest('.education-entry').remove();
+        }
+      }
+
+      if (e.target && e.target.classList.contains('remove-experience')) {
+        const experienceSection =
+          document.querySelector('.experience-entry').parentNode;
+        const experienceEntries =
+          experienceSection.querySelectorAll('.experience-entry');
+
+        // If only one entry remains, show a warning and prevent deletion
+        if (experienceEntries.length === 1) {
+          showWarning('You cannot delete the initial experience entry.');
+        } else {
+          e.target.closest('.experience-entry').remove();
+        }
+      }
+    });
+  });
+
+  // Add More Education
+  document
+    .getElementById('add-education')
+    .addEventListener('click', function () {
+      const educationSection =
+        document.querySelector('.education-entry')?.parentNode;
+      if (educationSection) {
+        const newEntry = document
+          .querySelector('.education-entry')
+          ?.cloneNode(true);
+        if (newEntry) {
+          newEntry
+            .querySelectorAll('input')
+            .forEach((input) => (input.value = ''));
+          educationSection.appendChild(newEntry);
+        }
+      }
+    });
+
+  // Add More Experience
+  document
+    .getElementById('add-experience')
+    .addEventListener('click', function () {
+      const experienceSection =
+        document.querySelector('.experience-entry')?.parentNode;
+      if (experienceSection) {
+        const newEntry = document
+          .querySelector('.experience-entry')
+          ?.cloneNode(true);
+        if (newEntry) {
+          newEntry
+            .querySelectorAll('input')
+            .forEach((input) => (input.value = ''));
+          experienceSection.appendChild(newEntry);
+        }
+      }
+    });
+
+  document.querySelectorAll('.card-select').forEach((card) => {
+    card.addEventListener('click', function () {
+      // Deselect all cards
+      document.querySelectorAll('.card-select').forEach((card) => {
+        card.classList.remove('selected');
+      });
+
+      // Select the clicked card
+      card.classList.add('selected');
+
+      // Optionally, handle the selected template
+      const selectedTemplate = card.getAttribute('data-template');
+      console.log(`Selected: ${selectedTemplate}`);
+    });
+  });
+</script>
+
+{% endblock %}

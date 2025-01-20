@@ -1,0 +1,73 @@
+.navbar-custom {
+  background-color: lightseagreen;
+}
+.my-0 {
+  border: none; /* Removes the default border style */
+  height: 2px; /* Adjusts the thickness of the line */
+  background-color: #000; /* Sets the color of the horizontal rule */
+}
+.fixed-bottom {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: lightseagreen; /* Light gray background */
+  color: #333; /* Darker text for contrast */
+  padding: 10px 0;
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1); /* Shadow for better visibility */
+  z-index: 10; /* Ensures it stays above other elements */
+}
+
+.footer-custom a {
+  color: #007bff; /* Bootstrap blue for links */
+  margin: 0 5px; /* Adds spacing between icons */
+  font-size: 1.2rem; /* Slightly larger icons */
+  transition: color 0.3s ease; /* Smooth color change on hover */
+}
+
+.footer-custom a:hover {
+  color: #0056b3; /* Darker blue on hover */
+}
+
+.footer-custom p {
+  margin: 0; /* Removes unnecessary spacing */
+  line-height: 1.5; /* Adjust line height for better readability */
+}
+
+.centered-card {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%; /* Makes it responsive for smaller screens */
+  max-width: 600px; /* Limits the maximum width */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Adds a subtle shadow */
+  border-radius: 8px; /* Smooth corners */
+  padding: 20px; /* Adds spacing inside the card */
+  background-color: #ffffff; /* Card background */
+  margin-bottom: calc(var(--footer-height, 50px) / 2); /* Adjust for footer */
+}
+.container {
+  min-height: calc(
+    100vh - 100px
+  ); /* Adjusts the container's height based on the fixed footer's height */
+  padding-bottom: 80px; /* Adds extra space at the bottom to prevent content from being hidden behind footer */
+}
+
+footer {
+  margin-top: auto; /* Ensures the footer stays at the bottom of the page */
+}
+.card-select {
+  cursor: pointer;
+  border: 2px solid transparent; /* Add a default transparent border */
+  transition: border-color 0.3s, box-shadow 0.3s; /* Smooth transition */
+}
+
+.card-select.selected {
+  border: 2px solid #007bff; /* Blue border when selected */
+  box-shadow: 0 4px 8px rgba(0, 123, 255, 0.2); /* Optional shadow effect */
+}
+
+.card-select:hover {
+  box-shadow: 0 6px 12px rgba(0, 123, 255, 0.3); /* Optional hover shadow */
+}

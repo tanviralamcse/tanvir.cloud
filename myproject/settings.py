@@ -11,6 +11,9 @@ SECRET_KEY = "django-insecure-4&6z4hz((mumc8pzbf%1&mei!e$8l(+c%uhw74x@w^z9i@fznv
 ALLOWED_HOSTS = ['tanvir.cloud', '127.0.0.1', 'localhost', '.vercel.app']
 
 # Application definition
+INTERNAL_IPS = [
+    "127.0.0.1",
+]
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -20,6 +23,9 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "blog",
+    "tailwind",
+    "django_browser_reload",
+    "cvmaker"
 ]
 
 MIDDLEWARE = [
@@ -28,10 +34,13 @@ MIDDLEWARE = [
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "django_browser_reload.middleware.BrowserReloadMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
+LOGIN_REDIRECT_URL = 'user_page'
+LOGOUT_REDIRECT_URL = 'blog/'
 
 ROOT_URLCONF = "myproject.urls"
 
@@ -93,8 +102,10 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]  # Custom static files directory
 
+STATICFILES_DIRS = [
+    BASE_DIR / "static", 
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
