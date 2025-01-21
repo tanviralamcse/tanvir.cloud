@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CV Template</title>
+  </head>
+  <style>
+    <style>
+        body {
+          font-family: Arial, sans-serif;
+          margin: 0;
+          padding: 20px;
+          background-color: #f8f8f8;
+          color: #333;
+        }
+    
+        .cv-container {
+          max-width: 800px;
+          margin: 0 auto;
+          background: white;
+          padding: 20px;
+          box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+    
+        .cv-header {
+          display: flex;
+          justify-content: space-between;
+          border-bottom: 2px solid #ddd;
+          padding-bottom: 20px;
+          margin-bottom: 20px;
+        }
+    
+        .cv-info {
+          flex: 2;
+        }
+    
+        .cv-photo img {
+          width: 150px;
+          height: 150px;
+          object-fit: cover;
+          border-radius: 50%;
+        }
+    
+        .cv-section {
+          margin-bottom: 20px;
+        }
+    
+        .cv-section h2 {
+          background: #ddd;
+          padding: 10px;
+          margin: 0;
+          font-size: 1.2em;
+        }
+    
+        .cv-item {
+          display: flex;
+          gap: 10px;
+          margin-top: 10px;
+        }
+    
+        .cv-item p {
+          margin: 0;
+          font-size: 0.9em;
+        }
+    
+        .cv-footer {
+          text-align: right;
+          margin-top: 20px;
+        }
+    
+        .cv-footer img {
+          width: 100px;
+        }
+      </style>  </style>
+  <body>
+    <div class="cv-container">
+      <header class="cv-header">
+        <div class="cv-info">
+          <h1>{{ cv_data.name }}</h1>
+          <p><strong>Name:</strong> {{ cv_data.name }}</p>
+          <p><strong>Birthday:</strong> {{ cv_data.birthday }}</p>
+          <p><strong>Address:</strong> {{ cv_data.address }}</p>
+          <p><strong>Phone:</strong> {{ cv_data.phone }}</p>
+          <p><strong>Email:</strong> {{ cv_data.email }}</p>
+        </div>
+        <div class="cv-photo">
+          <img src="{{ cv_data.profile_picture }}" alt="Profile Picture" />
+        </div>
+      </header>
+
+      {% for section in cv_data.sections %}
+      <section class="cv-section">
+        <h2>{{ section.title }}</h2>
+        {% for item in section.items %}
+        <div class="cv-item">
+            <p><strong>{{ item.date }}</strong></p>
+            <div>
+              <h3>
+                {% if item.position %}
+                  {{ item.position }}
+                {% else %}
+                  {{ item.degree }}
+                {% endif %}
+              </h3>
+              <p>{{ item.company|default_if_none:item.institution }}</p>
+              <ul>
+                {% for detail in item.details %}
+                <li>{{ detail }}</li>
+                {% endfor %}
+              </ul>
+            </div>
+          </div>
+          
+        {% endfor %}
+      </section>
+      {% endfor %}
+
+      <footer class="cv-footer">
+        <p>{{ cv_data.footer_note }}</p>
+        <img src="{{ cv_data.signature }}" alt="Signature" />
+      </footer>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CV Template</title>
+  </head>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background-color: #f8f8f8;
+      color: #333;
+    }
+
+    .cv-container {
+      max-width: 800px;
+      margin: 0 auto;
+      background: white;
+      padding: 20px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .cv-header {
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 2px solid #ddd;
+      padding-bottom: 20px;
+      margin-bottom: 20px;
+    }
+
+    .cv-info {
+      flex: 2;
+    }
+
+    .cv-photo img {
+      width: 150px;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+
+    .cv-section {
+      margin-bottom: 20px;
+    }
+
+    .cv-section h2 {
+      background: #ddd;
+      padding: 10px;
+      margin: 0;
+      font-size: 1.2em;
+    }
+
+    .cv-item {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .cv-item p {
+      margin: 0;
+      font-size: 0.9em;
+    }
+
+    .cv-footer {
+      text-align: right;
+      margin-top: 20px;
+    }
+
+    .cv-footer img {
+      width: 100px;
+    }
+
+    .responsibilities ul {
+      margin-top: 5px;
+      list-style-type: disc;
+      padding-left: 20px;
+    }
+  </style>
+  <body>
+    <div class="cv-container">
+      <header class="cv-header">
+        <div class="cv-info">
+          <h1>{{ personal_info.first_name }} {{ personal_info.last_name }}</h1>
+          <p><strong>First Name:</strong> {{ personal_info.first_name }}</p>
+          <p><strong>Last Name:</strong> {{ personal_info.last_name }}</p>
+          <p><strong>Phone:</strong> {{ personal_info.phone }}</p>
+          <p><strong>Email:</strong> {{ personal_info.email }}</p>
+          <p>
+            <strong>Address:</strong> {{ contact_info.address }}, {{
+            contact_info.city }}, {{ contact_info.zip_code }}
+          </p>
+        </div>
+      </header>
+
+      <section class="cv-section">
+        <h2>Education</h2>
+        {% for entry in education %}
+        <div class="cv-item">
+          <p><strong>{{ entry.start_date }} - {{ entry.end_date }}</strong></p>
+          <div>
+            <h3>{{ entry.degree }}</h3>
+            <p>{{ entry.institution }}</p>
+          </div>
+        </div>
+        {% endfor %}
+      </section>
+
+      <section class="cv-section">
+        <h2>Experience</h2>
+        {% for entry in experience %}
+        <div class="cv-item">
+          <p><strong>{{ entry.start_date }} - {{ entry.end_date }}</strong></p>
+          <div>
+            <h3>{{ entry.title }}</h3>
+            <p>{{ entry.company }}</p>
+            {% if entry.responsibilities %}
+            <div class="responsibilities">
+              <strong>Responsibilities:</strong>
+              <ul>
+                {% for responsibility in entry.responsibilities.splitlines %}
+                {%if responsibility.strip %}
+                <li>{{ responsibility.strip }}</li>
+                {% endif %} {% endfor %}
+              </ul>
+            </div>
+            {% endif %}
+          </div>
+        </div>
+        {% endfor %}
+      </section>
+
+      <section class="cv-section">
+        <h2>Skills</h2>
+        <p>{{ skills }}</p>
+      </section>
+
+      <footer class="cv-footer">
+        <p>Generated CV - {{ current_date }}</p>
+      </footer>
+    </div>
+  </body>
+</html>

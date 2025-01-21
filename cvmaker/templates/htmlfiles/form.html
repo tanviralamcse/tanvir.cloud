@@ -1,7 +1,10 @@
 {% extends 'htmlfiles/base.html' %} {% block content %} {% load static %}
+
 <div class="container my-5">
   <h2 class="text-center">CV Form</h2>
-  <form action="#" method="POST">
+  <form action="{% url 'cv_view' %}" method="POST">
+    {% csrf_token %}
+
     <!-- Personal Information Section -->
     <div class="mb-4 border border-primary px-3 py-2">
       <h4>Personal Information</h4>
@@ -13,7 +16,9 @@
               type="text"
               class="form-control"
               id="first_name"
+              name="first_name"
               placeholder="John"
+              required
             />
           </div>
         </div>
@@ -24,7 +29,9 @@
               type="text"
               class="form-control"
               id="last_name"
+              name="last_name"
               placeholder="Doe"
+              required
             />
           </div>
         </div>
@@ -35,7 +42,9 @@
               type="email"
               class="form-control"
               id="email"
+              name="email"
               placeholder="john.doe@example.com"
+              required
             />
           </div>
         </div>
@@ -46,25 +55,28 @@
               type="tel"
               class="form-control"
               id="phone"
+              name="phone"
               placeholder="123-456-7890"
+              required
             />
           </div>
         </div>
       </div>
     </div>
+
     <!-- Education Section -->
-    <div class="mb-4 border border-primary px-3 py-2">
+    <div id="education-section" class="mb-4 border border-primary px-3 py-2">
+      <h4>Education</h4>
       <div class="education-entry">
-        <h5>Education</h5>
         <div class="row">
           <div class="col-md-6">
             <label for="degree" class="form-label">Degree</label>
             <input
               type="text"
               class="form-control"
-              id="degree"
               name="education_degree[]"
               placeholder="e.g., B.Sc. in Computer Science"
+              required
             />
           </div>
           <div class="col-md-6">
@@ -72,28 +84,27 @@
             <input
               type="text"
               class="form-control"
-              id="institution"
               name="education_institution[]"
               placeholder="e.g., University Name"
+              required
             />
           </div>
         </div>
         <div class="row">
           <div class="col-md-6">
-            <label for="start-date" class="form-label">Start Date</label>
+            <label for="start_date" class="form-label">Start Date</label>
             <input
               type="date"
               class="form-control"
-              id="start-date"
               name="education_start_date[]"
+              required
             />
           </div>
           <div class="col-md-6">
-            <label for="end-date" class="form-label">End Date</label>
+            <label for="end_date" class="form-label">End Date</label>
             <input
               type="date"
               class="form-control"
-              id="end-date"
               name="education_end_date[]"
             />
           </div>
@@ -103,25 +114,25 @@
         </button>
         <hr class="my-3" />
       </div>
-
       <button type="button" class="btn btn-secondary" id="add-education">
         Add More Education
       </button>
     </div>
 
     <!-- Work Experience Section -->
-    <div class="mb-4 border border-primary px-3 py-2">
+    <!-- Work Experience Section -->
+    <div id="experience-section" class="mb-4 border border-primary px-3 py-2">
+      <h4>Experience</h4>
       <div class="experience-entry">
-        <h5>Experience</h5>
         <div class="row">
           <div class="col-md-6">
-            <label for="job-title" class="form-label">Job Title</label>
+            <label for="job_title" class="form-label">Job Title</label>
             <input
               type="text"
               class="form-control"
-              id="job-title"
               name="experience_title[]"
               placeholder="e.g., Software Engineer"
+              required
             />
           </div>
           <div class="col-md-6">
@@ -129,38 +140,54 @@
             <input
               type="text"
               class="form-control"
-              id="company"
               name="experience_company[]"
               placeholder="e.g., Google"
+              required
             />
           </div>
         </div>
         <div class="row">
           <div class="col-md-6">
-            <label for="start-date-exp" class="form-label">Start Date</label>
+            <label for="experience_start_date" class="form-label"
+              >Start Date</label
+            >
             <input
               type="date"
               class="form-control"
-              id="start-date-exp"
               name="experience_start_date[]"
+              required
             />
           </div>
           <div class="col-md-6">
-            <label for="end-date-exp" class="form-label">End Date</label>
+            <label for="experience_end_date" class="form-label">End Date</label>
             <input
               type="date"
               class="form-control"
-              id="end-date-exp"
               name="experience_end_date[]"
             />
           </div>
         </div>
+
+        <!-- Responsibilities Textarea -->
+        <div class="mb-3">
+          <label for="responsibilities" class="form-label"
+            >Responsibilities</label
+          >
+          <textarea
+            id="responsibilities"
+            name="experience_responsibilities[]"
+            class="form-control"
+            rows="4"
+            placeholder="Describe your responsibilities"
+            oninput="addBullets(this)"
+          ></textarea>
+        </div>
+
         <button type="button" class="btn btn-danger mt-3 remove-experience">
           Delete
         </button>
         <hr class="my-3" />
       </div>
-
       <button type="button" class="btn btn-secondary" id="add-experience">
         Add More Experience
       </button>
@@ -169,178 +196,51 @@
     <!-- Skills Section -->
     <div class="mb-4 border border-primary px-3 py-2">
       <h4>Skills</h4>
-      <div class="row">
-        <div class="col-md-12">
-          <div class="mb-3">
-            <label for="skills" class="form-label">Skills</label>
-            <input
-              type="text"
-              class="form-control"
-              id="skills"
-              placeholder="Programming Languages, Tools, etc."
-            />
-          </div>
-        </div>
-      </div>
+      <input
+        type="text"
+        class="form-control"
+        name="skills"
+        placeholder="Programming Languages, Tools, etc."
+        required
+      />
     </div>
 
     <!-- Contact Information Section -->
     <div class="mb-4 border border-primary px-3 py-2">
       <h4>Contact Information</h4>
-      <div class="row">
-        <div class="col-md-6">
-          <div class="mb-3">
-            <label for="address" class="form-label">Address</label>
-            <input
-              type="text"
-              class="form-control"
-              id="address"
-              placeholder="123 Main Street"
-            />
-          </div>
-        </div>
-        <div class="col-md-6">
-          <div class="mb-3">
-            <label for="city" class="form-label">City</label>
-            <input
-              type="text"
-              class="form-control"
-              id="city"
-              placeholder="New York"
-            />
-          </div>
-        </div>
-        <div class="col-md-6">
-          <div class="mb-3">
-            <label for="state" class="form-label">State</label>
-            <input
-              type="text"
-              class="form-control"
-              id="state"
-              placeholder="NY"
-            />
-          </div>
-        </div>
-        <div class="col-md-6">
-          <div class="mb-3">
-            <label for="zip_code" class="form-label">Zip Code</label>
-            <input
-              type="text"
-              class="form-control"
-              id="zip_code"
-              placeholder="10001"
-            />
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="border border-primary px-3 py-2">
-      <h2>Select Template</h2>
-      <div class="row">
-        <div class="col-md-4 mb-3">
-          <div class="card card-select" data-template="Template 1">
-            <img
-              src="{% static 'cvmaker/img/tem1.jpg'%}"
-              class="card-img-top"
-              alt="Template 1"
-              style="height: 200px; object-fit: cover"
-            />
-            <div class="card-body">
-              <h5 class="card-title">Template 1</h5>
-              <a
-                href="{% static 'cvmaker/img/tem1.jpg' %}"
-                class="btn btn-primary"
-                target="_blank"
-                >View Demo</a
-              >
-            </div>
-          </div>
-        </div>
-
-        <div class="col-md-4 mb-3">
-          <div class="card card-select" data-template="Template 2">
-            <img
-              src="{% static 'cvmaker/img/tem2.jpg' %}"
-              class="card-img-top"
-              alt="Template 2"
-              style="height: 200px; object-fit: cover"
-            />
-            <div class="card-body">
-              <h5 class="card-title">Template 2</h5>
-              <a
-                href="{% static 'cvmaker/img/tem2.jpg' %}"
-                target="_blank"
-                class="btn btn-primary"
-                >View Demo</a
-              >
-            </div>
-          </div>
-        </div>
-
-        <div class="col-md-4 mb-3">
-          <div class="card card-select" data-template="Template 3">
-            <img
-              src="{% static 'cvmaker/img/tem3.jpg' %}"
-              class="card-img-top"
-              alt="Template 3"
-              style="height: 200px; object-fit: cover"
-            />
-            <div class="card-body">
-              <h5 class="card-title">Template 3</h5>
-              <a
-                href="{% static 'cvmaker/img/tem2.jpg' %}"
-                target="_blank"
-                class="btn btn-primary"
-                >View Demo</a
-              >
-            </div>
-          </div>
-        </div>
-
-        <div class="col-md-4 mb-3">
-          <div class="card card-select" data-template="Template 4">
-            <img
-              src="{% static 'cvmaker/img/tem4.jpg' %}"
-              class="card-img-top"
-              alt="Template 4"
-              style="height: 200px; object-fit: cover"
-            />
-            <div class="card-body">
-              <h5 class="card-title">Template 4</h5>
-              <a
-                href="{% static 'cvmaker/img/tem4.jpg' %}"
-                target="_blank"
-                class="btn btn-primary"
-                >View Demo</a
-              >
-            </div>
-          </div>
-        </div>
-
-        <div class="col-md-4 mb-3">
-          <div class="card card-select" data-template="Template 5">
-            <img
-              src="{% static 'cvmaker/img/tem5.jpg' %}"
-              class="card-img-top"
-              alt="Template 5"
-              style="height: 200px; object-fit: cover"
-            />
-            <div class="card-body">
-              <h5 class="card-title">Template 5</h5>
-              <a
-                href="{% static 'cvmaker/img/tem5.jpg' %}"
-                target="_blank"
-                class="btn btn-primary"
-                >View Demo</a
-              >
-            </div>
-          </div>
-        </div>
-      </div>
+      <input
+        type="text"
+        class="form-control mb-2"
+        name="address"
+        placeholder="123 Main Street"
+        required
+      />
+      <input
+        type="text"
+        class="form-control mb-2"
+        name="city"
+        placeholder="City"
+        required
+      />
+      <input
+        type="text"
+        class="form-control mb-2"
+        name="state"
+        placeholder="State"
+        required
+      />
+      <input
+        type="text"
+        class="form-control mb-2"
+        name="zip_code"
+        placeholder="Zip Code"
+        required
+      />
     </div>
 
-    <div class="d-flex justify-content-center pt-5">
-      <button disabled type="submit" class="btn btn-primary">Submit</button>
+    <!-- Submit Button -->
+    <div class="d-flex justify-content-center">
+      <button type="submit" class="btn btn-primary">Submit</button>
     </div>
   </form>
 </div>
