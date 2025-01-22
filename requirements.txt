@@ -20,10 +20,12 @@ mdurl==0.1.2
 nodejs==0.1.1
 optional-django==0.1.0
 packaging==24.2
+pillow==11.1.0
 Pygments==2.19.1
 python-dateutil==2.9.0.post0
 python-slugify==8.0.4
 PyYAML==6.0.2
+reportlab==4.2.5
 requests==2.32.3
 rich==13.9.4
 six==1.17.0

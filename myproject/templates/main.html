@@ -478,12 +478,6 @@
         <!-- Section Title -->
         <div class="container section-title" data-aos="fade-up">
           <h2>Portfolio</h2>
-          <p>
-            Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex
-            aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos
-            quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia
-            fugiat sit in iste officiis commodi quidem hic quas.
-          </p>
         </div>
         <!-- End Section Title -->
 
@@ -500,9 +494,9 @@
               data-aos-delay="100"
             >
               <li data-filter="*" class="filter-active">All</li>
-              <li data-filter=".filter-app">App</li>
-              <li data-filter=".filter-product">Card</li>
-              <li data-filter=".filter-branding">Web</li>
+              <li data-filter=".filter-app">Python Django</li>
+              <li data-filter=".filter-product">AWS</li>
+              <li data-filter=".filter-branding">React Django</li>
             </ul>
             <!-- End Portfolio Filters -->
 
@@ -515,21 +509,21 @@
                 class="col-lg-4 col-md-6 portfolio-item isotope-item filter-app"
               >
                 <img
-                  src={% static "img/masonry-portfolio/masonry-portfolio-1.jpg" %}
+                  src={% static "img/masonry-portfolio/cvmaker.png" %}
                   class="img-fluid"
                   alt=""
                 />
                 <div class="portfolio-info">
-                  <h4>App 1</h4>
-                  <p>Lorem ipsum, dolor sit</p>
+                  <h4>CV Maker App</h4>
+                  <p>You can build your CV within minutes with Selectecd templates. Build with html, css, js and Django. Actually it was an personal proejct. I wanted to develop somethign that helps me to generate good CVs at no cost. </p>
                   <a
-                    href={% static "img/masonry-portfolio/masonry-portfolio-1.jpg" %}
-                    title="App 1"
+                    href={% static "img/masonry-portfolio/cvmaker.png" %}
+                    title="CV Maker App"
                     data-gallery="portfolio-gallery-app"
                     class="glightbox preview-link"
                     ><i class="bi bi-zoom-in"></i></a>
                   <a
-                    href="portfolio-details.html"
+                    href="{% url 'cvmaker' %}"
                     title="More Details"
                     class="details-link"
                     ><i class="bi bi-link-45deg"></i
