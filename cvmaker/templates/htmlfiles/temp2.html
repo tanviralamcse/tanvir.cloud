@@ -268,7 +268,9 @@
               <div class="smallText">
                 <p class="bolded white">{{ entry.degree }}</p>
                 <p>{{ entry.institution }}, {{entry.location }}</p>
-                <p>{{ entry.start_date }} - {{ entry.end_date }}</p>
+                <p>
+                  {{ entry.start_date }} - {{ entry.end_date|default:"Present"}}
+                </p>
               </div>
               {% endfor %}
             </div>
