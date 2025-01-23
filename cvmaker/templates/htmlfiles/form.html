@@ -65,6 +65,18 @@
             />
           </div>
         </div>
+        <div class="col-md-6">
+          <div class="mb-3">
+            <label for="about" class="form-label">About You</label>
+            <textarea
+              id="about"
+              name="about"
+              class="form-control"
+              rows="4"
+              placeholder="Write a little about yourself"
+            ></textarea>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -261,7 +273,7 @@
         required
       />
     </div>
-    <div class="form-group">
+    <div class="form-group pt-3 pb-5 border border-primary px-3 py-2">
       <label for="photo">Upload Photo</label>
       <input
         type="file"
@@ -272,118 +284,168 @@
         required
       />
     </div>
+    <div
+      class="d-flex justify-content-center mt-4 pt-3 pb-3 border border-primary px-3 py-2"
+    >
+      <label class="card card-selectable" style="width: 18rem; cursor: pointer">
+        <input
+          type="radio"
+          name="template_selection"
+          value="temp1.html"
+          class="form-check-input d-none"
+          id="card1"
+        />
+        <img
+          src="{% static 'cvmaker/img/tem1.png' %}"
+          class="card-img-top"
+          alt="..."
+        />
+        <div class="card-body">
+          <p class="card-text" style="text-decoration: none">
+            <a
+              style="text-decoration: none"
+              href="{% static 'cvmaker/img/tem1.png' %}"
+              >Preview: Template 1</a
+            >
+          </p>
+        </div>
+      </label>
+      <label class="card card-selectable" style="width: 18rem; cursor: pointer">
+        <input
+          type="radio"
+          name="template_selection"
+          value="temp2.html"
+          class="form-check-input d-none"
+          id="card2"
+        />
+        <img
+          src="{% static 'cvmaker/img/tem2.png' %}"
+          class="card-img-top"
+          alt="..."
+        />
+        <div class="card-body">
+          <p class="card-text">
+            <a
+              style="text-decoration: none"
+              href="{% static 'cvmaker/img/tem2.png' %}"
+              >Preview: Template 2</a
+            >
+          </p>
+        </div>
+      </label>
+    </div>
 
     <!-- Submit Button -->
     <div class="d-flex justify-content-center pt-5">
       <button type="submit" class="btn btn-primary">Submit</button>
     </div>
-  </form>
-</div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-  function showWarning(message) {
-    // Create a warning alert dynamically
-    const warningAlert = document.createElement('div');
-    warningAlert.className =
-      'alert alert-warning position-fixed top-0 start-50 translate-middle-x';
-    warningAlert.style.zIndex = 1050; // Ensure it's on top
-    warningAlert.innerText = message;
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+      function showWarning(message) {
+        // Create a warning alert dynamically
+        const warningAlert = document.createElement('div');
+        warningAlert.className =
+          'alert alert-warning position-fixed top-0 start-50 translate-middle-x';
+        warningAlert.style.zIndex = 1050; // Ensure it's on top
+        warningAlert.innerText = message;
 
-    // Append it to the body
-    document.body.appendChild(warningAlert);
+        // Append it to the body
+        document.body.appendChild(warningAlert);
 
-    // Remove after 3 seconds
-    setTimeout(() => {
-      warningAlert.remove();
-    }, 3000);
-  }
-
-  document.addEventListener('DOMContentLoaded', () => {
-    document.addEventListener('click', (e) => {
-      if (e.target && e.target.classList.contains('remove-education')) {
-        const educationSection =
-          document.querySelector('.education-entry').parentNode;
-        const educationEntries =
-          educationSection.querySelectorAll('.education-entry');
-
-        // If only one entry remains, show a warning and prevent deletion
-        if (educationEntries.length === 1) {
-          showWarning('You cannot delete the initial education entry.');
-        } else {
-          e.target.closest('.education-entry').remove();
-        }
+        // Remove after 3 seconds
+        setTimeout(() => {
+          warningAlert.remove();
+        }, 3000);
       }
 
-      if (e.target && e.target.classList.contains('remove-experience')) {
-        const experienceSection =
-          document.querySelector('.experience-entry').parentNode;
-        const experienceEntries =
-          experienceSection.querySelectorAll('.experience-entry');
+      document.addEventListener('DOMContentLoaded', () => {
+        document.addEventListener('click', (e) => {
+          if (e.target && e.target.classList.contains('remove-education')) {
+            const educationSection =
+              document.querySelector('.education-entry').parentNode;
+            const educationEntries =
+              educationSection.querySelectorAll('.education-entry');
 
-        // If only one entry remains, show a warning and prevent deletion
-        if (experienceEntries.length === 1) {
-          showWarning('You cannot delete the initial experience entry.');
-        } else {
-          e.target.closest('.experience-entry').remove();
-        }
-      }
-    });
-  });
+            // If only one entry remains, show a warning and prevent deletion
+            if (educationEntries.length === 1) {
+              showWarning('You cannot delete the initial education entry.');
+            } else {
+              e.target.closest('.education-entry').remove();
+            }
+          }
 
-  // Add More Education
-  document
-    .getElementById('add-education')
-    .addEventListener('click', function () {
-      const educationSection =
-        document.querySelector('.education-entry')?.parentNode;
-      if (educationSection) {
-        const newEntry = document
-          .querySelector('.education-entry')
-          ?.cloneNode(true);
-        if (newEntry) {
-          newEntry
-            .querySelectorAll('input')
-            .forEach((input) => (input.value = ''));
-          educationSection.appendChild(newEntry);
-        }
-      }
-    });
+          if (e.target && e.target.classList.contains('remove-experience')) {
+            const experienceSection =
+              document.querySelector('.experience-entry').parentNode;
+            const experienceEntries =
+              experienceSection.querySelectorAll('.experience-entry');
 
-  // Add More Experience
-  document
-    .getElementById('add-experience')
-    .addEventListener('click', function () {
-      const experienceSection =
-        document.querySelector('.experience-entry')?.parentNode;
-      if (experienceSection) {
-        const newEntry = document
-          .querySelector('.experience-entry')
-          ?.cloneNode(true);
-        if (newEntry) {
-          newEntry
-            .querySelectorAll('input')
-            .forEach((input) => (input.value = ''));
-          experienceSection.appendChild(newEntry);
-        }
-      }
-    });
-
-  document.querySelectorAll('.card-select').forEach((card) => {
-    card.addEventListener('click', function () {
-      // Deselect all cards
-      document.querySelectorAll('.card-select').forEach((card) => {
-        card.classList.remove('selected');
+            // If only one entry remains, show a warning and prevent deletion
+            if (experienceEntries.length === 1) {
+              showWarning('You cannot delete the initial experience entry.');
+            } else {
+              e.target.closest('.experience-entry').remove();
+            }
+          }
+        });
       });
 
-      // Select the clicked card
-      card.classList.add('selected');
+      // Add More Education
+      document
+        .getElementById('add-education')
+        .addEventListener('click', function () {
+          const educationSection =
+            document.querySelector('.education-entry')?.parentNode;
+          if (educationSection) {
+            const newEntry = document
+              .querySelector('.education-entry')
+              ?.cloneNode(true);
+            if (newEntry) {
+              newEntry
+                .querySelectorAll('input')
+                .forEach((input) => (input.value = ''));
+              educationSection.appendChild(newEntry);
+            }
+          }
+        });
 
-      // Optionally, handle the selected template
-      const selectedTemplate = card.getAttribute('data-template');
-      console.log(`Selected: ${selectedTemplate}`);
-    });
-  });
-</script>
+      // Add More Experience
+      document
+        .getElementById('add-experience')
+        .addEventListener('click', function () {
+          const experienceSection =
+            document.querySelector('.experience-entry')?.parentNode;
+          if (experienceSection) {
+            const newEntry = document
+              .querySelector('.experience-entry')
+              ?.cloneNode(true);
+            if (newEntry) {
+              newEntry
+                .querySelectorAll('input')
+                .forEach((input) => (input.value = ''));
+              experienceSection.appendChild(newEntry);
+            }
+          }
+        });
 
-{% endblock %}
+      document.querySelectorAll('.card-select').forEach((card) => {
+        card.addEventListener('click', function () {
+          // Deselect all cards
+          document.querySelectorAll('.card-select').forEach((card) => {
+            card.classList.remove('selected');
+          });
+
+          // Select the clicked card
+          card.classList.add('selected');
+
+          // Optionally, handle the selected template
+          const selectedTemplate = card.getAttribute('data-template');
+          console.log(`Selected: ${selectedTemplate}`);
+        });
+      });
+    </script>
+
+    {% endblock %}
+  </form>
+</div>

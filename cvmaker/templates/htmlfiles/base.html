@@ -14,6 +14,27 @@
     <link rel="stylesheet" href="{% static 'cvmaker/css/style.css' %}" />
 <!-- Add this to the <head> section of your HTML to include FontAwesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+      .card-selectable {
+        transition: transform 0.3s ease, background-color 0.3s ease;
+      }
+      .card-selectable:hover {
+        transform: scale(1.05);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      }
+      .card-selectable input:checked + img {
+        border: 3px lightseagreen;
+      }
+      .card-selectable input:checked + img + .card-body {
+        background-color: lightseagreen;
+      }
+      .card-selectable input:checked + img + .card-body .card-text {
+        font-weight: bold;
+      }
+      .d-flex {
+        gap: 20px;
+      }
+    </style>
     <script>
       console.log("{% static 'cvmaker/css/style.css' %}");
     </script>

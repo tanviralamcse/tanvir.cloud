@@ -5,5 +5,6 @@ urlpatterns = [
     path("", views.cvmaker, name='cvmaker'),
     path("form/",views.form, name='form'),
     path("cv/", views.cv_view, name="cv_view"),
+    path("tv/", views.tv, name="tv"),
 
 ]

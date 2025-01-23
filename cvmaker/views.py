@@ -9,6 +9,9 @@ def cvmaker(request):
 def form(request):
     return render(request, 'htmlfiles/form.html')
 
+def tv(request):
+    return render(request, 'htmlfiles/temp2.html')
+
 def cv_view(request):
     if request.method == 'POST':
         # Extract personal information
@@ -16,6 +19,8 @@ def cv_view(request):
         last_name = request.POST.get('last_name')
         email = request.POST.get('email')
         phone = request.POST.get('phone')
+        about = request.POST.get('about')
+        selected_template = request.POST.get('template_selection','temp1.html')
 
         # Handle photo upload (do not store it)
         photo = request.FILES.get('photo')  # assuming 'photo' is the name attribute of the file input
@@ -89,6 +94,7 @@ def cv_view(request):
                 "last_name": last_name,
                 "email": email,
                 "phone": phone,
+                "about": about,
                 "photo_base64": photo_base64,  # Pass base64-encoded photo to the next page
             },
             "education": education_entries,
@@ -101,7 +107,6 @@ def cv_view(request):
                 "zip_code": zip_code,
             },
         }
-
-        return render(request, 'htmlfiles/temp1.html', context)
+        return render(request, f'htmlfiles/{selected_template}', context)
 
     return render(request, 'htmlfiles/form.html')

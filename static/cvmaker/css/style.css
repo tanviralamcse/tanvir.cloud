@@ -57,17 +57,31 @@
 footer {
   margin-top: auto; /* Ensures the footer stays at the bottom of the page */
 }
-.card-select {
-  cursor: pointer;
-  border: 2px solid transparent; /* Add a default transparent border */
-  transition: border-color 0.3s, box-shadow 0.3s; /* Smooth transition */
+.card-selectable {
+  transition: transform 0.3s ease, background-color 0.3s ease;
 }
-
-.card-select.selected {
-  border: 2px solid #007bff; /* Blue border when selected */
-  box-shadow: 0 4px 8px rgba(0, 123, 255, 0.2); /* Optional shadow effect */
+.card-selectable:hover {
+  transform: scale(1.05) !important;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
-
-.card-select:hover {
-  box-shadow: 0 6px 12px rgba(0, 123, 255, 0.3); /* Optional hover shadow */
+.card-selectable input:checked + img {
+  border: 3px solid #007bff;
+}
+.card-selectable input:checked + img + .card-body {
+  background-color: #007bff;
+  color: white;
+}
+.card-selectable input:checked + img + .card-body .card-text {
+  font-weight: bold;
+}
+.d-flex {
+  gap: 20px;
+}
+p.input-instruction {
+  font-size: 0.875rem; /* Small text (14px if root font size is 16px) */
+  color: #6c757d; /* Subtle gray color for instructions */
+  margin-top: 0.5rem; /* Add some spacing above */
+  margin-bottom: 0.5rem; /* Add some spacing below */
+  line-height: 1.5; /* Comfortable line spacing */
+  font-style: italic; /* Italicize to differentiate */
 }
