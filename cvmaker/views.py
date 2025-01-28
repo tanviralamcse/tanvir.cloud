@@ -107,6 +107,6 @@ def cv_view(request):
                 "zip_code": zip_code,
             },
         }
-        return render(request, f'htmlfiles/temp4.html', context)
+        return render(request, f'htmlfiles/{selected_template}', context)
 
     return render(request, 'htmlfiles/form.html')
