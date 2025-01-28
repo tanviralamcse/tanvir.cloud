@@ -1,0 +1,104 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{% static 'cvmaker/css/tem4.css'%}" />
+    <title>European CV Template</title>
+  </head>
+  <body>
+    <div class="container" id="cv-content">
+      <!-- Header Section -->
+      <div class="header">
+        <h3>{{ personal_info.first_name }} {{ personal_info.last_name }}</h3>
+        <p>{{ personal_info.email }} | {{ personal_info.phone }}</p>
+        <p>
+          {{ contact_info.address }}, {{ contact_info.city }}, {{ contact_info.zip_code }}
+        </p>
+      </div>
+
+      <!-- About Section -->
+      <div class="section">
+        <h2>About Me</h2>
+        <p>{{ personal_info.about }}</p>
+      </div>
+
+
+
+<!-- Experience Section -->
+<div class="section">
+    <h2>Work Experience</h2>
+    {% for entry in experience %}
+    <div class="experience-entry {% cycle 'even' 'odd' %}">
+      <h3>{{ entry.title }}</h3>
+      <p><strong>{{ entry.company }}</strong> - {{ entry.location }}</p>
+      <p>{{ entry.start_date }} - {{ entry.end_date|default:"Present" }}</p>
+      {% if entry.responsibilities %}
+      <div class="responsibilities">
+        <p><strong>Responsibilities:</strong></p>
+        <ul>
+          {% for responsibility in entry.responsibilities.splitlines %}
+          {% if responsibility.strip %}
+          <li>{{ responsibility.strip }}</li>
+          {% endif %}
+          {% endfor %}
+        </ul>
+      </div>
+      {% endif %}
+    </div>
+    <hr> <!-- Horizontal line between experience entries -->
+    {% endfor %}
+  </div>
+  
+
+      <div class="section">
+        <h2>Skills</h2>
+        <table class="skills-table">
+          <tr>
+            {% for skill in skills %}
+             <td>{{ skill }}</td>
+              {% if forloop.counter|divisibleby:5 and not forloop.last %}
+                </tr><tr> <!-- Start a new row after every 3 skills, unless it's the last skill -->
+              {% endif %}
+            {% endfor %}
+          </tr>
+        </table>
+      </div>
+      
+            <!-- Education Section -->
+            <div class="section">
+                <h2>Education</h2>
+                {% for entry in education %}
+                <div>
+                  <h3>{{ entry.degree }}</h3>
+                  <p><strong>{{ entry.institution }}</strong> - {{ entry.location }}</p>
+                  <p>{{ entry.start_date }} - {{ entry.end_date }}</p>
+                </div>
+                {% endfor %}
+              </div>
+
+    <!-- Fixed Buttons -->
+    <div class="fixed-buttons">
+        <button id="generate-pdf">Export as PDF</button>
+      </div>
+      <script>
+        document
+          .getElementById('generate-pdf')
+          .addEventListener('click', function () {
+            const element = document.getElementById('cv-content');
+            const date = new Date().toISOString().split('T')[0]; // Get the current date in YYYY-MM-DD format
+  
+            const options = {
+              margin: 0,
+              filename: `{{ personal_info.first_name }}_{{ personal_info.last_name }}_${date}.pdf`,
+              image: { type: 'jpeg', quality: 0.98 },
+              html2canvas: { scale: 2 },
+              jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' },
+            };
+  
+            html2pdf().from(element).set(options).save();
+          });
+      </script>
+  </body>
+</html>

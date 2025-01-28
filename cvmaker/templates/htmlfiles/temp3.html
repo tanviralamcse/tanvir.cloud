@@ -1,0 +1,128 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Melanie Robinson CV</title>
+    <link
+      rel="stylesheet"
+      href="
+  {% static 'cvmaker/css/tem3.css'%}"
+    />
+  </head>
+  <body>
+    <div class="cv-container" id="cv-content">
+      <!-- Contact Info Section -->
+      <div class="contact-info">
+        <p>
+          <span>📞 {{ personal_info.phone }}</span> |
+          <span>✉️ {{ personal_info.email }}</span> |
+          <span
+            >{{ contact_info.address }}, {{ contact_info.city }},
+            {{contact_info.zip_code }}</span
+          >
+        </p>
+      </div>
+
+      <!-- Header Section -->
+      <header class="header">
+        <div class="header-content">
+          <!-- Name and Bio (Left Side) -->
+          <div class="text-section">
+            <h1>
+              {{ personal_info.first_name }} {{ personal_info.last_name }}
+            </h1>
+            <p class="summary">{{ personal_info.about }}</p>
+          </div>
+
+          <!-- Profile Picture (Right Side) -->
+          <div class="image-section">
+            {% if personal_info.photo_base64 %}
+            <img
+              src="data:image/jpeg;base64,{{ personal_info.photo_base64 }}"
+              alt="Uploaded Photo"
+            />
+            {% endif %}
+          </div>
+        </div>
+      </header>
+
+      <!-- Main Content Section (Two Columns) -->
+      <div class="main-content">
+        <!-- Left Column: Skills & Education -->
+        <div>
+          <!-- Skills Section -->
+          <section class="skills">
+            <h2>Skills</h2>
+            <ul>
+              {% for skill in skills %}
+              <li><span class="skill-badge">{{ skill }}</span></li>
+              {% endfor %}
+            </ul>
+          </section>
+
+          <!-- Education Section -->
+          <section class="education">
+            <h2>Education</h2>
+            {% for entry in education %}
+            <p>
+              <b>{{ entry.institution }}</b> | <i>{{ entry.location }}</i> –
+              {{entry.end_date | default:"Present" }}
+            </p>
+            {% endfor %}
+          </section>
+        </div>
+
+        <!-- Right Column: Work Experience -->
+        <div>
+          <section class="work-history">
+            <h2>Work History</h2>
+            {% for entry in experience %}
+            <article class="job">
+              <h3>{{ entry.title | default:"No Title Provided" }}</h3>
+              <p>
+                {{ entry.company }}, {{ entry.location }}
+                <span style="color: #ffd601">
+                  {{ entry.start_date | default:"Unknown" }} –
+                  {{entry.end_date|default:"Present" }}
+                </span>
+              </p>
+              {% if entry.responsibilities %}
+              <ul>
+                {% for responsibility in entry.responsibilities.splitlines %}
+                {%if responsibility.strip %}
+                <li>{{ responsibility.strip }}</li>
+                {% endif %} {% endfor %}
+              </ul>
+              {% endif %}
+            </article>
+            {% endfor %}
+          </section>
+        </div>
+      </div>
+    </div>
+    <!-- Fixed Buttons -->
+    <div class="fixed-buttons">
+      <button id="generate-pdf">Export as PDF</button>
+    </div>
+    <script>
+      document
+        .getElementById('generate-pdf')
+        .addEventListener('click', function () {
+          const element = document.getElementById('cv-content');
+          const date = new Date().toISOString().split('T')[0]; // Get the current date in YYYY-MM-DD format
+
+          const options = {
+            margin: 0,
+            filename: `{{ personal_info.first_name }}_{{ personal_info.last_name }}_${date}.pdf`,
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { scale: 2 },
+            jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' },
+          };
+
+          html2pdf().from(element).set(options).save();
+        });
+    </script>
+  </body>
+</html>

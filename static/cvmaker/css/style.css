@@ -55,7 +55,7 @@
 }
 
 footer {
-  margin-top: auto; /* Ensures the footer stays at the bottom of the page */
+  margin-top: 40px; /* Ensures the footer stays at the bottom of the page */
 }
 .card-selectable {
   transition: transform 0.3s ease, background-color 0.3s ease;
