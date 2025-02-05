@@ -65,8 +65,7 @@
                 <p class="bolded white">{{ entry.degree }}</p>
                 <p>{{ entry.institution }}, {{entry.location }}</p>
                 <p>
-                  {{ entry.start_date }} - {{
-                  entry.end_dateç|default:"Present"}}
+                  {{ entry.start_date }} - {{entry.end_date|default:"Present"}}
                 </p>
               </div>
               {% endfor %}
