@@ -39,8 +39,9 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-LOGIN_REDIRECT_URL = 'user_page'
-LOGOUT_REDIRECT_URL = 'blog/'
+LOGIN_REDIRECT_URL = '/blog/dashboard/'  # Redirect to home after login
+LOGOUT_REDIRECT_URL = '/blog/login/'  # Redirect to login after logout
+
 
 ROOT_URLCONF = "myproject.urls"
 

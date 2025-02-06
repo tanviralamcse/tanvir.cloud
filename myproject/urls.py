@@ -7,7 +7,7 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("", main, name="main"),
     path("__reload__/", include("django_browser_reload.urls")),
-    path("blog/", include('blog.urls') ),
+    path("blog/", include("blog.urls")),
     path("cvmaker/", include('cvmaker.urls') )
 ]
 
