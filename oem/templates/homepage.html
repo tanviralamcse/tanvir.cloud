@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>OEM Prototype - Home</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.0.4/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <script src="https://unpkg.com/htmx.org@1.7.0"></script>
+  </head>
+
+  <body class="bg-gray-100 font-sans leading-normal tracking-normal">
+    <!-- Navbar -->
+    <nav class="bg-blue-600 p-4">
+      <div class="max-w-7xl mx-auto flex justify-between items-center">
+        <a href="/oem" class="text-white text-2xl font-semibold"
+          >OEM Prototype</a
+        >
+        <div>
+          <a
+            href="{% url 'login' %}"
+            class="text-white px-4 py-2 rounded hover:bg-blue-500"
+            >Login</a
+          >
+          <a
+            href="{% url 'register' %}"
+            class="text-white px-4 py-2 rounded hover:bg-blue-500"
+            >Register</a
+          >
+        </div>
+      </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="bg-blue-800 text-white py-20 text-center">
+      <h1 class="text-4xl font-bold mb-4">Welcome to the OEM Prototype</h1>
+      <p class="text-xl">
+        An innovative platform for technicians and OEMs to connect, manage jobs,
+        and streamline processes.
+      </p>
+      <a
+        href="{% url 'register' %}"
+        class="mt-6 inline-block bg-yellow-500 text-white px-6 py-3 rounded-lg shadow-lg hover:bg-yellow-400"
+        >Get Started</a
+      >
+    </header>
+
+    <!-- Features Section -->
+    <section class="py-20 bg-white text-gray-800">
+      <div class="max-w-7xl mx-auto px-6">
+        <h2 class="text-3xl font-bold mb-10 text-center">
+          Features of the OEM Prototype
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+          <div class="bg-gray-100 p-6 rounded-lg shadow-lg">
+            <h3 class="text-xl font-semibold mb-4">Job Listings</h3>
+            <p>
+              OEMs can post job listings for technicians. Technicians can apply
+              for jobs based on their skills and location.
+            </p>
+          </div>
+          <div class="bg-gray-100 p-6 rounded-lg shadow-lg">
+            <h3 class="text-xl font-semibold mb-4">Service Requests</h3>
+            <p>
+              OEMs can manage service requests submitted by customers and assign
+              jobs to technicians for fulfillment.
+            </p>
+          </div>
+          <div class="bg-gray-100 p-6 rounded-lg shadow-lg">
+            <h3 class="text-xl font-semibold mb-4">Reviews & Ratings</h3>
+            <p>
+              Technicians and OEMs can leave feedback and rate each other,
+              helping maintain quality and trust on the platform.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Technology Stack Section -->
+    <section class="py-20 bg-gray-100 text-gray-800">
+      <div class="max-w-7xl mx-auto px-6">
+        <h2 class="text-3xl font-bold mb-10 text-center">Technology Stack</h2>
+        <p class="text-lg text-center mb-6">
+          The OEM Prototype is built using the latest technologies for an
+          efficient and scalable platform.
+        </p>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12">
+          <div class="bg-white p-6 rounded-lg shadow-lg">
+            <h3 class="text-xl font-semibold mb-4">Django</h3>
+            <p>
+              Our backend is built with Django, a powerful Python framework that
+              allows rapid development and scalability.
+            </p>
+          </div>
+          <div class="bg-white p-6 rounded-lg shadow-lg">
+            <h3 class="text-xl font-semibold mb-4">HTMX</h3>
+            <p>
+              HTMX is used for creating dynamic, real-time interactions on the
+              frontend, making the user experience seamless.
+            </p>
+          </div>
+          <div class="bg-white p-6 rounded-lg shadow-lg">
+            <h3 class="text-xl font-semibold mb-4">Tailwind CSS</h3>
+            <p>
+              Tailwind CSS is used to create a modern and responsive UI design
+              with utility-first CSS classes.
+            </p>
+          </div>
+          <div class="bg-white p-6 rounded-lg shadow-lg">
+            <h3 class="text-xl font-semibold mb-4">AWS</h3>
+            <p>
+              The platform is hosted on AWS, providing reliable cloud services
+              with excellent scalability options.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Call to Action Section -->
+    <section class="py-20 bg-blue-600 text-white text-center">
+      <h2 class="text-3xl font-semibold mb-6">Ready to Get Started?</h2>
+      <p class="text-lg mb-6">
+        Join the platform and be a part of the future of OEM services and job
+        management.
+      </p>
+      <a
+        href="{% url 'register' %}"
+        class="bg-yellow-500 text-white px-6 py-3 rounded-lg shadow-lg hover:bg-yellow-400"
+        >Sign Up Now</a
+      >
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white text-center py-6">
+      <p>&copy; 2025 OEM Prototype. All Rights Reserved.</p>
+    </footer>
+  </body>
+</html>

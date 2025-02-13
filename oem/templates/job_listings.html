@@ -1,0 +1,16 @@
+{% extends 'simple.html' %} {% block title %} Job Listings - OEMn{% endblock %}
+{%block content %}
+<h1 class="text-2xl font-semibold mb-6">Job Listings</h1>
+<div class="space-y-4">
+  <div class="bg-white p-4 rounded-lg shadow-lg">
+    <h2 class="text-xl font-semibold">Job Title 1</h2>
+    <p>Location: New York</p>
+    <a href="/apply_for_job" class="text-blue-600">Apply</a>
+  </div>
+  <div class="bg-white p-4 rounded-lg shadow-lg">
+    <h2 class="text-xl font-semibold">Job Title 2</h2>
+    <p>Location: San Francisco</p>
+    <a href="/apply_for_job" class="text-blue-600">Apply</a>
+  </div>
+</div>
+{% endblock %}

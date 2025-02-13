@@ -3,6 +3,9 @@
 import os
 import sys
 from django.core.wsgi import get_wsgi_application
+from dotenv import load_dotenv
+load_dotenv()
+
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'myproject.settings')  # Replace 'myproject' with your project name
 app = get_wsgi_application()  # This is the WSGI application entry point

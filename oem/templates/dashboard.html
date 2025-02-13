@@ -1,0 +1,57 @@
+{% extends 'simple.html' %} {% block content %}
+<div class="container mx-auto p-4">
+  <h1 class="text-2xl font-bold mb-4">
+    Welcome to your Dashboard, {{ user.username }}!
+  </h1>
+ <!-- Display User Role -->
+ <p class="text-lg font-semibold mb-4">
+  Your Role: <span class="text-blue-600">{{ role }}</span>
+</p>
+  {% if role == "OEM" %}
+  <h2 class="text-xl font-semibold mb-4">Your Service Requests</h2>
+  <ul class="list-disc pl-5">
+    {% for service_request in service_requests %}
+    <li class="mb-3">
+      <strong class="text-lg">{{ service_request.title }}</strong><br />
+      <span>{{ service_request.description }}</span><br />
+      <span>Status: <strong>{{ service_request.status }}</strong></span>
+    </li>
+    {% empty %}
+    <p>No service requests found.</p>
+    {% endfor %}
+  </ul>
+
+  <h2 class="text-xl font-semibold mt-8 mb-4">Your Job Executions</h2>
+  <ul class="list-disc pl-5">
+    {% for job_execution in job_executions %}
+    <li class="mb-3">
+      <strong class="text-lg">{{ job_execution.service_request.title }}</strong
+      ><br />
+      <span>Report: {{ job_execution.service_report }}</span><br />
+      <span>Status: <strong>{{ job_execution.status }}</strong></span>
+    </li>
+    {% empty %}
+    <p>No job executions found.</p>
+    {% endfor %}
+  </ul>
+
+  {% elif role == "Technician" %}
+  <h2 class="text-xl font-semibold mb-4">Your Job Applications</h2>
+  <ul class="list-disc pl-5">
+    {% for job_application in job_applications %}
+    <li class="mb-3">
+      <strong class="text-lg">{{ job_application.request.title }}</strong><br />
+      <span>Message: {{ job_application.message }}</span><br />
+      <span>Status: <strong>{{ job_application.status }}</strong></span>
+    </li>
+    {% empty %}
+    <p>No job applications found.</p>
+    {% endfor %}
+  </ul>
+
+  {% else %}
+  <p class="text-red-500">Unknown role or no data available.</p>
+  {% endif %}
+
+</div>
+{% endblock %}

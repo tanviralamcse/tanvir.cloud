@@ -8,7 +8,8 @@ urlpatterns = [
     path("", main, name="main"),
     path("__reload__/", include("django_browser_reload.urls")),
     path("blog/", include("blog.urls")),
-    path("cvmaker/", include('cvmaker.urls') )
+    path("cvmaker/", include("cvmaker.urls")) ,
+    path("oem/", include("oem.urls")),
 ]
 
 
