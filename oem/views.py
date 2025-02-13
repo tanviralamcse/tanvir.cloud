@@ -1,14 +1,12 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import login, logout
-from django.contrib.auth.models import User
+from django.contrib.auth import login, logout, authenticate
 from django.views.decorators.cache import never_cache
-from django.contrib.auth import login
+from django.contrib.auth import get_user_model
 
-from oem.forms import CustomUserCreationForm
-
-from .models import ServiceRequest, JobApplication, JobExecution, Review
+from oem.forms import CustomUserCreationForm, ServiceRequestForm, TechnicianApplicationForm
+from .models import Job, ServiceRequest, JobApplication, JobExecution, Review, Technician
 
 
 # Homepage
@@ -33,25 +31,36 @@ def register(request):
 
     return render(request, "register.html", {"form": form})
 
-# Login View
+
+User = get_user_model()
+
 def login_view(request):
-    if request.method == 'POST':
-        form = AuthenticationForm(data=request.POST)  # Use AuthenticationForm
-        if form.is_valid():
-            user = form.get_user()  # Get the authenticated user
-            login(request, user)  # Log the user in
+    if request.method == "POST":
+        username = request.POST.get("username")
+        password = request.POST.get("password")
 
-            # Redirect based on user role
+        # Authenticate user
+        user = authenticate(request, username=username, password=password)
+
+        if user is not None:
+            login(request, user)
+            
+            # Redirect based on role
             if user.role == "OEM":
-                return redirect("dashboard")  # OEM Dashboard
+                return redirect("oem_dashboard")
             elif user.role == "Technician":
-                return redirect("dashboard")  # Technician Dashboard
+                return redirect("technician_dashboard")
+            else:
+                messages.error(request, "Invalid user role.")
+                return redirect("login")
         else:
-            return render(request, 'login.html', {'form': form, 'error': 'Invalid credentials'})  # Handle form errors
-    else:
-        form = AuthenticationForm()
+            messages.error(request, "Invalid username or password.")
 
-    return render(request, 'login.html', {'form': form})  # Pass the form to the template
+    return render(request, "login.html")
+
+def job_list(request):
+    jobs = Job.objects.all()  # Fetch all jobs
+    return render(request, "oem/job_list.html", {"jobs": jobs})
 
 # Logout View
 def logout_view(request):
@@ -63,31 +72,30 @@ def logout_view(request):
     return response
 
 
-@login_required
 @never_cache  # Prevents caching for security
-def dashboard(request):
-    user = request.user  # Get logged-in user
-    role = getattr(user, "role", None)  # Ensure role is safely accessed
-    
-    # Base context with user and role
-    context = {
-        "user": user,
-        "role": role,
-        "service_requests": None,
-        "job_executions": None,
-        "job_applications": None
-    }
+@login_required
+def oem_dashboard(request):
+    if request.user.role != "OEM":
+        return redirect("technician_dashboard")
 
-    # Fetch data based on role
-    if role == "OEM":
-        context.update({
-            "service_requests": ServiceRequest.objects.filter(oem=user),
-            "job_executions": JobExecution.objects.filter(oem=user)
-        })
-    elif role == "Technician":
-        context["job_applications"] = JobApplication.objects.filter(technician=user)
-    
-    return render(request, "dashboard.html", context)
+    service_requests = ServiceRequest.objects.filter(oem=request.user)
+    return render(request, "oem_dashboard.html", {"service_requests": service_requests})
+
+@never_cache 
+@login_required
+def technician_dashboard(request):
+    if request.user.role != "Technician":
+        return redirect("oem_dashboard")
+
+    job_applications = JobApplication.objects.filter(technician=request.user)
+    job_listings = Job.objects.all()  # Change this if needed to filter available jobs
+
+    return render(
+        request,
+        "technician_dashboard.html",
+        {"job_applications": job_applications, "job_listings": job_listings},
+    )
+
 
 # 📋 Job Listings Page (Technicians view available jobs)
 @login_required
@@ -190,7 +198,42 @@ def create_service_request(request):
     return render(request, "service_request_form.html")
 
 
-# Homepage
-def homepage(request):
-    return render(request, 'homepage.html')
+# Technician Dashboard (Technician-specific view)
+@login_required
+def technician_dashboard(request):
+    technician = Technician.objects.get(user=request.user)
+    applications = JobApplication.objects.filter(technician=technician)
+    return render(request, "technician_dashboard.html", {"applications": applications})
 
+
+# Apply for Job (Technician applying for a job)
+@login_required
+def technician_apply_for_job(request, job_id):
+    job = get_object_or_404(ServiceRequest, id=job_id)
+    if request.method == "POST":
+        form = TechnicianApplicationForm(request.POST)
+        if form.is_valid():
+            application = form.save(commit=False)
+            application.technician = request.user  # Link the application to the logged-in technician
+            application.job = job
+            application.save()
+            return redirect('job_detail', job_id=job.id)
+    else:
+        form = TechnicianApplicationForm()
+    return render(request, 'apply_for_job.html', {'form': form, 'job': job})
+
+from django.shortcuts import redirect, reverse
+
+@login_required
+def edit_service_request(request, id):
+    service_request = get_object_or_404(ServiceRequest, id=id, oem=request.user)
+
+    if request.method == "POST":
+        form = ServiceRequestForm(request.POST, instance=service_request)
+        if form.is_valid():
+            form.save()
+            return redirect(reverse("oem_dashboard"))  # ✅ Correct way to redirect
+    else:
+        form = ServiceRequestForm(instance=service_request)
+
+    return render(request, "edit_service_request.html", {"form": form})

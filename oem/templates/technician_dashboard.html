@@ -1,0 +1,22 @@
+{% extends "simple.html" %}
+{% block content %}
+<h2>Technician Dashboard</h2>
+
+<h3>Available Jobs</h3>
+<ul>
+    {% for job in job_listings %}
+        <li>
+            {{ job.title }} - <a href="{% url 'apply_for_job' job.pk %}">Apply</a>
+        </li>
+    {% endfor %}
+</ul>
+
+<h3>Your Applications</h3>
+<ul>
+    {% for application in job_applications %}
+        <li>
+            {{ application.request.title }} - Status: {{ application.status }}
+        </li>
+    {% endfor %}
+</ul>
+{% endblock %}

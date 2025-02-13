@@ -6,7 +6,62 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}My Site{% endblock %}</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
-</head>
+    <style>
+      .popup {
+        display: block; /* Set to 'none' if you want it to be hidden initially */
+        position: fixed;
+        left: 50%;
+        bottom: 20px;
+        transform: translateX(-50%);
+        z-index: 1000;
+        border: 1px solid #ccc;
+        background-color: #fff;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+        width: 300px;
+      }
+      
+      .popup-content {
+        padding: 20px;
+      }
+      
+      .close {
+        position: absolute;
+        right: 10px;
+        top: 10px;
+        cursor: pointer;
+        font-size: 18px;
+      }
+      
+      footer {
+        margin-top: 20px;
+        font-size: 14px;
+      }
+      .styled-table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      
+      .styled-table th, .styled-table td {
+        padding: 10px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+      }
+      
+      .styled-table th {
+        background-color: #f2f2f2;
+        font-weight: bold;
+      }
+      
+      .styled-table tr:nth-child(even) {
+        background-color: #f9f9f9;
+      }
+      
+      .styled-table tr:hover {
+        background-color: #f1f1f1;
+      }
+    </style>
+  </head>
 <body class="bg-gray-100">
 
   <nav class="bg-blue-600 p-4 text-white">
@@ -32,6 +87,37 @@
     <div class="container mx-auto mt-10">
         {% block content %}{% endblock %}
     </div>
-
+    <div id="popup" class="popup">
+      <div class="popup-content">
+        <span id="closePopup" class="close">&times;</span>
+        <footer>
+          <table class="styled-table">
+            <tr>
+              <th>Role</th>
+              <th>Username</th>
+              <th>Password</th>
+            </tr>
+            <tr>
+              <td>Tech</td>
+              <td>tuhin2233</td>
+              <td>Nosin@#19</td>
+            </tr>
+            <tr>
+              <td>OEM</td>
+              <td>imtiaz</td>
+              <td>qazqaz1122</td>
+            </tr>
+          </table>
+          
+        </footer>
+      </div>
+    </div>
+    
+    <script>
+      document.getElementById('closePopup').addEventListener('click', function() {
+        document.getElementById('popup').style.display = 'none';
+      });
+      
+    </script>
 </body>
 </html>

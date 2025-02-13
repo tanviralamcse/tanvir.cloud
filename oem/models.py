@@ -1,6 +1,7 @@
-
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+
+# Custom User Model
 class User(AbstractUser):
     ROLE_CHOICES = [
         ('OEM', 'OEM'),
@@ -15,16 +16,20 @@ class User(AbstractUser):
         return self.username
 
 
-# Technician Profile Model
-class TechnicianProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='technician_profile')
+# Technician Model
+class Technician(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     skills = models.TextField()
     experience = models.IntegerField(help_text="Years of experience")
     service_regions = models.TextField()
     hourly_rate = models.DecimalField(max_digits=10, decimal_places=2)
+    location = models.CharField(max_length=255)
+    contact_info = models.CharField(max_length=255)
+    resume = models.FileField(upload_to='technician_resumes/', blank=True, null=True)
 
     def __str__(self):
-        return self.user.username
+        return f"{self.user.username} - {self.skills}"
+
 
 # Service Request Model
 class ServiceRequest(models.Model):
@@ -45,13 +50,14 @@ class ServiceRequest(models.Model):
     title = models.CharField(max_length=255)
     description = models.TextField()
     machine_details = models.TextField()
-    service_type = models.CharField(max_length=20, choices=SERVICE_TYPES)
+    service_type = models.CharField(max_length=100, choices=SERVICE_TYPES)
     budget = models.DecimalField(max_digits=10, decimal_places=2)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='open')
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.title
+
 
 # Job Application Model
 class JobApplication(models.Model):
@@ -65,6 +71,7 @@ class JobApplication(models.Model):
     def __str__(self):
         return f"{self.technician.username} applied for {self.request.title}"
 
+
 # Job Execution Model
 class JobExecution(models.Model):
     technician = models.ForeignKey(User, on_delete=models.CASCADE, related_name='executed_jobs')
@@ -73,10 +80,11 @@ class JobExecution(models.Model):
     photos = models.ImageField(upload_to='job_photos/', blank=True, null=True)
     service_report = models.TextField()
     status = models.CharField(max_length=20, choices=[('ongoing', 'Ongoing'), ('completed', 'Completed')], default='ongoing')
-    completed_at = models.DateTimeField(auto_now_add=True)
+    completed_at = models.DateTimeField(null=True, blank=True)
 
     def __str__(self):
         return f"Job Execution: {self.service_request.title}"
+
 
 # Ratings & Reviews Model
 class Review(models.Model):
@@ -88,3 +96,25 @@ class Review(models.Model):
 
     def __str__(self):
         return f"Review by {self.reviewer.username} for {self.reviewed_user.username}"
+
+
+# Technician Application Model (Ensure a Job model exists)
+class TechnicianApplication(models.Model):
+    technician = models.ForeignKey(User, on_delete=models.CASCADE)
+    job = models.ForeignKey(ServiceRequest, on_delete=models.CASCADE)  # Assuming Job model exists
+    skills = models.TextField()
+    status = models.CharField(max_length=20, choices=[('pending', 'Pending'), ('accepted', 'Accepted'), ('rejected', 'Rejected')], default='pending')
+    applied_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Application from {self.technician.username} for {self.job.title}"
+
+class Job(models.Model):
+    title = models.CharField(max_length=200)
+    description = models.TextField()
+    location = models.CharField(max_length=200)
+    # Other fields specific to a Job
+
+    def __str__(self):
+        return self.title
+

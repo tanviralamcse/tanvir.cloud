@@ -1,37 +1,45 @@
-{% extends 'base.html' %} {% block title %}Service Request - Your App
-{%endblock%} {% block content %}
-<h1 class="text-2xl font-semibold mb-6">Request Service</h1>
-<form
-  action="/service_request_form"
-  method="POST"
-  class="max-w-lg mx-auto bg-white p-6 rounded-lg shadow-lg"
->
-  {% csrf_token %} {{ form.as_p }}
-  <div class="mb-4">
-    <label for="service_type" class="block text-sm font-medium text-gray-700"
-      >Service Type</label
-    >
-    <input
-      type="text"
-      id="service_type"
-      name="service_type"
-      class="w-full px-4 py-2 border rounded-lg"
-      required
-    />
-  </div>
-  <div class="mb-4">
-    <label for="description" class="block text-sm font-medium text-gray-700"
-      >Description</label
-    >
-    <textarea
-      id="description"
-      name="description"
-      class="w-full px-4 py-2 border rounded-lg"
-      required
-    ></textarea>
-  </div>
-  <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded-lg">
-    Submit Request
-  </button>
-</form>
+{% extends 'simple.html' %} 
+{% block title %}Service Request - Your App{% endblock %} 
+{% block content %}
+<div class="max-w-lg mx-auto bg-white p-6 rounded-lg shadow-lg">
+  <h1 class="text-2xl font-semibold mb-6">Request Service</h1>
+
+  {% if error %}
+  <p class="text-red-500">{{ error }}</p>
+  {% endif %}
+
+  <form action="{% url 'create_service_request' %}" method="POST">
+    {% csrf_token %}  
+    {{ form.as_p }} <!-- If using Django forms -->
+
+    <div class="mb-4">
+      <label for="title" class="block text-sm font-medium text-gray-700">Title</label>
+      <input type="text" id="title" name="title" class="w-full px-4 py-2 border rounded-lg" required />
+    </div>
+
+    <div class="mb-4">
+      <label for="machine_details" class="block text-sm font-medium text-gray-700">Machine Details</label>
+      <input type="text" id="machine_details" name="machine_details" class="w-full px-4 py-2 border rounded-lg" required />
+    </div>
+
+    <div class="mb-4">
+      <label for="service_type" class="block text-sm font-medium text-gray-700">Service Type</label>
+      <input type="text" id="service_type" name="service_type" class="w-full px-4 py-2 border rounded-lg" required />
+    </div>
+
+    <div class="mb-4">
+      <label for="budget" class="block text-sm font-medium text-gray-700">Budget</label>
+      <input type="number" id="budget" name="budget" class="w-full px-4 py-2 border rounded-lg" required />
+    </div>
+
+    <div class="mb-4">
+      <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
+      <textarea id="description" name="description" class="w-full px-4 py-2 border rounded-lg" required></textarea>
+    </div>
+
+    <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded-lg">
+      Submit Request
+    </button>
+  </form>
+</div>
 {% endblock %}

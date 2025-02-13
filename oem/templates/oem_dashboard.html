@@ -1,0 +1,77 @@
+{% extends "simple.html" %}
+
+{% block content %}
+<div class="max-w-5xl mx-auto mt-10 p-6 bg-white shadow-lg rounded-xl">
+    <h1 class="text-3xl font-bold text-gray-800 mb-4">OEM Dashboard</h1>
+
+    <!-- Create New Service Request -->
+    <div class="mb-6">
+        <a href="{% url 'create_service_request' %}" 
+           class="px-4 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition">
+            + Create New Service Request
+        </a>
+    </div>
+
+    <!-- Active Job Openings -->
+    <h3 class="text-xl font-semibold text-gray-700 mb-2">Active Job Openings</h3>
+    {% if active_jobs %}
+        <ul class="bg-gray-100 rounded-lg p-4 space-y-3">
+            {% for job in active_jobs %}
+                <li class="p-3 bg-white shadow rounded-lg flex justify-between items-center">
+                    <span class="text-gray-800 font-medium">{{ job.title }}</span>
+                    <span class="px-3 py-1 text-sm rounded-full bg-green-500 text-white">
+                        Open
+                    </span>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p class="text-gray-500">No active job openings.</p>
+    {% endif %}
+
+    <!-- All Service Requests -->
+    <h3 class="text-xl font-semibold text-gray-700 mt-6 mb-2">Your Service Requests</h3>
+    {% if service_requests %}
+        <ul class="bg-gray-100 rounded-lg p-4 space-y-3">
+            {% for request in service_requests %}
+                <li class="p-3 bg-white shadow rounded-lg">
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <span class="text-gray-800 font-medium">{{ request.title }}</span>
+                            <p class="text-sm text-gray-600">{{ request.description }}</p>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <!-- Edit Button -->
+                            <a href="{% url 'edit_service_request' request.id %}" 
+                               class="px-3 py-1 bg-yellow-500 text-white text-sm rounded-md hover:bg-yellow-600">
+                                Edit
+                            </a>
+                            <!-- Status Badge -->
+                            <span class="px-3 py-1 text-sm rounded-full 
+                                         {% if request.status == 'Open' %} bg-green-500 
+                                         {% elif request.status == 'Closed' %} bg-red-500 
+                                         {% else %} bg-gray-400 {% endif %} text-white">
+                                {{ request.status }}
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Applicants Section -->
+                    <h4 class="text-sm font-semibold text-gray-700 mt-2">Applicants:</h4>
+                    {% if request.applicants.all %}
+                        <ul class="ml-4 text-sm text-gray-600">
+                            {% for applicant in request.applicants.all %}
+                                <li>🔹 {{ applicant.user.username }} - {{ applicant.skills }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p class="text-gray-500 text-sm ml-4">No applicants yet.</p>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p class="text-gray-500">No service requests found.</p>
+    {% endif %}
+</div>
+{% endblock %}
