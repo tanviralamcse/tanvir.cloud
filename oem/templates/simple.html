@@ -72,7 +72,6 @@
                 {% if request.path == '/dashboard/' %} 
                     <a href="{% url 'logout' %}" class="px-4 py-2 bg-red-500 rounded">Logout</a>
                 {% else %}
-                    <a href="{% url 'dashboard' %}" class="px-4 py-2 bg-blue-400 rounded">Dashboard</a>
                     <a href="{% url 'logout' %}" class="px-4 py-2 bg-red-500 rounded">Logout</a>
                 {% endif %}
             {% else %}
@@ -87,31 +86,7 @@
     <div class="container mx-auto mt-10">
         {% block content %}{% endblock %}
     </div>
-    <div id="popup" class="popup">
-      <div class="popup-content">
-        <span id="closePopup" class="close">&times;</span>
-        <footer>
-          <table class="styled-table">
-            <tr>
-              <th>Role</th>
-              <th>Username</th>
-              <th>Password</th>
-            </tr>
-            <tr>
-              <td>Tech</td>
-              <td>tuhin2233</td>
-              <td>Nosin@#19</td>
-            </tr>
-            <tr>
-              <td>OEM</td>
-              <td>imtiaz</td>
-              <td>qazqaz1122</td>
-            </tr>
-          </table>
-          
-        </footer>
-      </div>
-    </div>
+
     
     <script>
       document.getElementById('closePopup').addEventListener('click', function() {
@@ -119,5 +94,18 @@
       });
       
     </script>
+    {% if messages %}
+    <script>
+        setTimeout(() => {
+            document.getElementById("msg-popup").style.display = "none";
+        }, 3000);
+    </script>
+    <div id="msg-popup">
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+    </div>
+{% endif %}
+
 </body>
 </html>

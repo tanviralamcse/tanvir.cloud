@@ -1,0 +1,61 @@
+{% extends "simple.html" %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto mt-10 p-6 bg-white shadow-lg rounded-xl">
+    <h2 class="text-3xl font-semibold text-gray-900 mb-6">Available Jobs</h2>
+
+    <!-- Refresh Button -->
+    <div class="text-right mb-4">
+        <a href="{% url 'job_list' %}" class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300">
+            Refresh Jobs
+        </a>
+    </div>
+
+    <!-- Job Listings -->
+    <ul class="space-y-4">
+        {% for job in page_obj %}
+            <li class="p-4 border rounded-lg shadow-sm bg-gray-100">
+                <h3 class="text-lg font-semibold">{{ job.title }}</h3>
+                <p class="text-gray-600">{{ job.description|truncatechars:100 }}</p>
+                <p class="text-gray-800 font-semibold">Budget: €{{ job.budget }}</p>
+                <p class="text-gray-500">Posted on: {{ job.created_at|date:"M d, Y" }}</p>
+                <a href="{% url 'apply_for_job' job.id %}" class="mt-2 inline-block px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+                    Apply Now
+                </a>
+            </li>
+        {% empty %}
+            <p class="text-gray-500">No jobs available at the moment.</p>
+        {% endfor %}
+    </ul>
+
+    <!-- Pagination -->
+    <div class="mt-6">
+        <nav class="flex justify-between">
+            {% if page_obj.has_previous %}
+                <a href="?page=1" class="px-3 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400">First</a>
+                <a href="?page={{ page_obj.previous_page_number }}" class="px-3 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400">Previous</a>
+            {% endif %}
+
+            <span class="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg">
+                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+            </span>
+
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}" class="px-3 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400">Next</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}" class="px-3 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400">Last</a>
+            {% endif %}
+        </nav>
+    </div>
+</div>
+{% endblock %}
+{% for job in jobs %}
+    <h3>{{ job.title }}</h3>
+    <p>{{ job.description }}</p>
+    {% if job.status == "open" %}
+        <a href="{% url 'apply_to_job' job.id %}" class="btn btn-primary">Apply</a>
+    {% elif job.status == "applied" %}
+        <p>You have applied for this job.</p>
+    {% elif job.status == "ongoing" %}
+        <p>Ongoing</p>
+    {% endif %}
+{% endfor %}

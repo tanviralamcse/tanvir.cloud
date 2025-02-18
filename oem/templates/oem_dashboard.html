@@ -75,3 +75,12 @@
     {% endif %}
 </div>
 {% endblock %}
+{% for job in oem_jobs %}
+    <li class="p-4 border rounded-lg shadow-sm bg-gray-100">
+        <h3 class="text-lg font-semibold">{{ job.title }}</h3>
+        <p class="text-gray-600">Status: {{ job.status }}</p>
+        <a href="{% url 'job_applicants' job.id %}" class="mt-2 inline-block px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+            View Applicants
+        </a>
+    </li>
+{% endfor %}

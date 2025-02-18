@@ -1,6 +1,8 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
+
+
 # Custom User Model
 class User(AbstractUser):
     ROLE_CHOICES = [
@@ -31,14 +33,8 @@ class Technician(models.Model):
         return f"{self.user.username} - {self.skills}"
 
 
-# Service Request Model
 class ServiceRequest(models.Model):
-    SERVICE_TYPES = [
-        ('maintenance', 'Maintenance'),
-        ('repair', 'Repair'),
-        ('inspection', 'Inspection'),
-        ('installation', 'Installation')
-    ]
+    title = models.CharField(max_length=255)  # Ensure title exists
     STATUS_CHOICES = [
         ('open', 'Open'),
         ('in_progress', 'In Progress'),
@@ -49,27 +45,35 @@ class ServiceRequest(models.Model):
     oem = models.ForeignKey(User, on_delete=models.CASCADE, related_name='service_requests')
     title = models.CharField(max_length=255)
     description = models.TextField()
-    machine_details = models.TextField()
-    service_type = models.CharField(max_length=100, choices=SERVICE_TYPES)
+    service_type = models.CharField(max_length=100)
     budget = models.DecimalField(max_digits=10, decimal_places=2)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='open')
     created_at = models.DateTimeField(auto_now_add=True)
-
+    hired_technician = models.ForeignKey(User, null=True, blank=True, on_delete=models.SET_NULL, related_name='hired_jobs')
+    
     def __str__(self):
         return self.title
 
 
 # Job Application Model
 class JobApplication(models.Model):
+    STATUS_CHOICES = [
+        ('pending', 'Pending'),
+        ('accepted', 'Accepted'),
+        ('rejected', 'Rejected'),
+        ('withdrawn', 'Withdrawn')
+    ]
+    
     technician = models.ForeignKey(User, on_delete=models.CASCADE, related_name='applications')
     request = models.ForeignKey(ServiceRequest, on_delete=models.CASCADE, related_name='applications')
     message = models.TextField()
     price_offer = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
-    status = models.CharField(max_length=20, choices=[('pending', 'Pending'), ('accepted', 'Accepted'), ('rejected', 'Rejected')], default='pending')
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
     applied_at = models.DateTimeField(auto_now_add=True)
-
+    
     def __str__(self):
         return f"{self.technician.username} applied for {self.request.title}"
+
 
 
 # Job Execution Model
@@ -110,10 +114,20 @@ class TechnicianApplication(models.Model):
         return f"Application from {self.technician.username} for {self.job.title}"
 
 class Job(models.Model):
-    title = models.CharField(max_length=200)
+    STATUS_CHOICES = [
+        ('open', 'Open'),
+        ('applied', 'Applied'),
+        ('ongoing', 'Ongoing'),
+        ('completed', 'Completed'),
+    ]
+
+    title = models.CharField(max_length=255)
     description = models.TextField()
-    location = models.CharField(max_length=200)
-    # Other fields specific to a Job
+    location = models.CharField(max_length=255)
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='open')
+    oem_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='jobs_posted', null=True, blank=True)
+    applied_technicians = models.ManyToManyField(User, related_name='applied_jobs', blank=True)
+    hired_technician = models.ForeignKey(User, null=True, blank=True, on_delete=models.SET_NULL, related_name='ongoing_jobs')
 
     def __str__(self):
         return self.title

@@ -1,22 +1,42 @@
 {% extends "simple.html" %}
+
 {% block content %}
-<h2>Technician Dashboard</h2>
+<div class="max-w-4xl mx-auto mt-10 p-6 bg-white shadow-lg rounded-xl">
+    <h2 class="text-3xl font-semibold text-gray-900 mb-6">Technician Dashboard</h2>
+    <!-- Job Listings Button -->
+    <div class="text-center mt-6">
+        <a href="{% url 'job_list' %}" class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+            View Job Listings
+        </a>
+    </div>
+    <!-- Jobs Applied -->
+    <div class="mb-6">
+        <h3 class="text-xl font-semibold text-gray-800">Jobs You Applied For</h3>
+        <ul class="mt-3 space-y-3">
+            {% for job in applied_jobs %}
+                <li class="p-4 border rounded-lg shadow-sm bg-gray-100">
+                    <strong>{{ job.service_request.title }}</strong> - {{ job.status }}
+                </li>
+            {% empty %}
+                <p class="text-gray-500">No jobs applied yet.</p>
+            {% endfor %}
+        </ul>
+    </div>
 
-<h3>Available Jobs</h3>
-<ul>
-    {% for job in job_listings %}
-        <li>
-            {{ job.title }} - <a href="{% url 'apply_for_job' job.pk %}">Apply</a>
-        </li>
-    {% endfor %}
-</ul>
+    <!-- Ongoing Jobs -->
+    <div class="mb-6">
+        <h3 class="text-xl font-semibold text-gray-800">Ongoing Jobs</h3>
+        <ul class="mt-3 space-y-3">
+            {% for job in ongoing_jobs %}
+                <li class="p-4 border rounded-lg shadow-sm bg-green-100">
+                    <strong>{{ job.service_request.title }}</strong> - In Progress
+                </li>
+            {% empty %}
+                <p class="text-gray-500">No ongoing jobs.</p>
+            {% endfor %}
+        </ul>
+    </div>
 
-<h3>Your Applications</h3>
-<ul>
-    {% for application in job_applications %}
-        <li>
-            {{ application.request.title }} - Status: {{ application.status }}
-        </li>
-    {% endfor %}
-</ul>
+
+</div>
 {% endblock %}

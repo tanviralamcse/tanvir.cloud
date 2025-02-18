@@ -32,3 +32,12 @@ class ServiceRequestForm(forms.ModelForm):
     class Meta:
         model = ServiceRequest
         fields = ["title", "description", "status"]
+
+
+from django import forms
+from .models import JobApplication
+
+class JobApplicationForm(forms.ModelForm):
+    class Meta:
+        model = JobApplication
+        fields = ['message', 'price_offer']  # Include only the fields users should fill

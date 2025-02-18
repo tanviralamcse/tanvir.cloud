@@ -1,0 +1,40 @@
+{% extends "simple.html" %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto mt-10 p-6 bg-white shadow-lg rounded-xl">
+    <h2 class="text-3xl font-semibold text-gray-900 mb-6">Applicants for {{ job.title }}</h2>
+
+    {% if applicants %}
+        <ul class="space-y-4">
+            {% for applicant in applicants %}
+                <li class="p-4 border rounded-lg shadow-sm bg-gray-100">
+                    <h3 class="text-lg font-semibold">{{ applicant.technician.username }}</h3>
+                    <p class="text-gray-600">Experience: {{ applicant.technician.profile.experience }} years</p>
+                    <p class="text-gray-800">Applied on: {{ applicant.applied_at|date:"M d, Y" }}</p>                    
+                    <a href="#" class="mt-2 inline-block px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">
+                        Hire
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p class="text-gray-500">No applicants yet.</p>
+    {% endif %}
+
+    <div class="text-center mt-6">
+        <a href="{% url 'oem_dashboard' %}" class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+            Back to Dashboard
+        </a>
+    </div>
+</div>
+{% endblock %}
+<h2>Applicants for {{ job.title }}</h2>
+
+{% for applicant in applicants %}
+    <p>{{ applicant.username }}</p>
+    {% if not job.hired_technician %}
+        <a href="{% url 'hire_technician' job.id applicant.id %}" class="btn btn-success">Hire This Technician</a>
+    {% else %}
+        <button class="btn btn-secondary" disabled>Technician Hired</button>
+    {% endif %}
+{% endfor %}

@@ -1,0 +1,38 @@
+{% extends 'simple.html' %}
+{% block content %}
+<h2>Ongoing Jobs</h2>
+
+{% if jobs %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Job Title</th>
+                <th>Description</th>
+                <th>Location</th>
+                <th>Hired Technician</th>
+                {% if user.is_authenticated and user == job.oem_user %}
+                    <th>Action</th>
+                {% endif %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for job in jobs %}
+                <tr>
+                    <td>{{ job.title }}</td>
+                    <td>{{ job.description }}</td>
+                    <td>{{ job.location }}</td>
+                    <td>{{ job.hired_technician.username }}</td>
+                    {% if user == job.oem_user %}
+                        <td>
+                            <a href="{% url 'end_contract' job.id %}" class="btn btn-danger">End Contract</a>
+                        </td>
+                    {% endif %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>No ongoing jobs at the moment.</p>
+{% endif %}
+
+{% endblock %}

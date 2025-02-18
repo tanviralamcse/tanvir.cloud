@@ -1,0 +1,30 @@
+{% extends 'simple.html' %}
+{% block content %}
+<h2>Your Applied Jobs</h2>
+
+{% if jobs %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Job Title</th>
+                <th>Description</th>
+                <th>Location</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for job in jobs %}
+                <tr>
+                    <td>{{ job.title }}</td>
+                    <td>{{ job.description }}</td>
+                    <td>{{ job.location }}</td>
+                    <td>{{ job.status }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>You haven't applied for any jobs yet.</p>
+{% endif %}
+
+{% endblock %}
