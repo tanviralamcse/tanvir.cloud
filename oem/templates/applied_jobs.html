@@ -23,7 +23,46 @@
             {% endfor %}
         </tbody>
     </table>
+
 {% else %}
+{% for application in job_applications %}
+    <div class="job-application">
+        <h3>Job Title: {{ application.request.title }}</h3>
+        <p>Description: {{ application.request.description }}</p>
+        <p>Status: {{ application.status }}</p>
+        <p>Price Offer: {{ application.price_offer }}</p>
+        <p>Applied At: {{ application.applied_at }}</p>
+    </div>
+{% empty %}
+    <p>No job applications found.</p>
+{% endfor %}
+
+{% for application in applied_jobs %}
+    <div class="job-application">
+        <h3>{{ application.request.title }}</h3>
+        <p>{{ application.request.description }}</p>
+        <p>Status: {{ application.status }}</p>
+        <p>Applied at: {{ application.applied_at }}</p>
+        
+        <!-- Show price offer if it exists -->
+        {% if application.price_offer %}
+            <p>Price Offer: ${{ application.price_offer }}</p>
+        {% endif %}
+        
+        <!-- Show technician application status -->
+        <p>Application Status: {{ application.status }}</p>
+    </div>
+{% endfor %}
+{% for application in applications %}
+    <div class="application">
+        <h3>Job Title: {{ application.request_id.title }}</h3>
+        <p>Description: {{ application.request_id.description }}</p>
+        <p>Status: {{ application.status }}</p>
+        <p>Price Offer: {{ application.price_offer }}</p>
+        <p>Applied At: {{ application.applied_at }}</p>
+    </div>
+{% endfor %}
+
     <p>You haven't applied for any jobs yet.</p>
 {% endif %}
 

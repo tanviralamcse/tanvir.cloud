@@ -38,3 +38,20 @@
         <button class="btn btn-secondary" disabled>Technician Hired</button>
     {% endif %}
 {% endfor %}
+
+<!-- job_applicants.html -->
+<h1>Applicants for "{{ job.title }}"</h1>
+<p>Total Applicants: {{ total_applicants }}</p>
+
+<ul>
+    {% for application in applicants %}
+        <li>
+            Technician: {{ application.technician.first_name }} {{ application.technician.last_name }}
+            <br>
+            Skills: {{ application.skills }}
+            <br>
+            Status: {{ application.status }}
+        </li>
+    {% endfor %}
+</ul>
+

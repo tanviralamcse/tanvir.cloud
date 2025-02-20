@@ -13,7 +13,7 @@ urlpatterns = [
     path("dashboard/technician/", views.technician_dashboard, name="technician_dashboard"),
 
     # Service Requests (OEM)
-    path("service-request/create/", views.create_service_request, name="create_service_request"),
+    path('service-request/create/', views.create_service_request, name='create_service_request'),
     path("service-request/<int:job_id>/edit/", views.edit_service_request, name="edit_service_request"),
 
     # Job Listings & Applications (Technicians)

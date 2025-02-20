@@ -2,12 +2,11 @@ from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, logout, authenticate
-from django.views.decorators.cache import never_cache
 from django.contrib.auth import get_user_model
 from django.core.paginator import Paginator
 from django.urls import reverse
-from decimal import Decimal, InvalidOperation
 from .forms import JobApplicationForm  # Add this import
+from django.urls import reverse
 
 
 from oem.forms import CustomUserCreationForm, ServiceRequestForm, TechnicianApplicationForm
@@ -58,30 +57,47 @@ def logout_view(request):
     logout(request)
     return response
 
-# OEM Dashboard
 @login_required
 def oem_dashboard(request):
-    if request.user.role != "OEM":
-        return redirect("technician_dashboard")
+    oem_jobs = ServiceRequest.objects.filter(oem=request.user)  # Ensure jobs exist
+    oem_user = request.user
+    job_applications = {}
 
-    service_requests = ServiceRequest.objects.filter(oem=request.user)
-    return render(request, "oem_dashboard.html", {"service_requests": service_requests})
+    for job in oem_jobs:
+        job_applications[job.id] = JobApplication.objects.filter(request=job)
+
+    context = {
+        "oem_jobs": oem_jobs,
+        "job_applications": job_applications,
+        "oem_user": oem_user,
+    }
+
+    return render(request, "oem_dashboard.html", context)
+
 
 # Technician Dashboard
 @login_required
 def technician_dashboard(request):
-    applied_jobs = JobApplication.objects.filter(technician=request.user)
-    return render(request, "technician_dashboard.html", {"applied_jobs": applied_jobs})
+    technician = request.user
+    job_applications = JobApplication.objects.filter(technician=technician).select_related('request')
+    return render(request, "technician_dashboard.html", {
+        "technician": technician,  # Pass technician to template
+        "job_applications": job_applications
+    })
 
 # Job Listings
 @login_required
 def job_list(request):
-    jobs = ServiceRequest.objects.filter(status="open").order_by("-created_at")
+    alljobs = ServiceRequest.objects.all()
+    jobs = alljobs.order_by("-created_at")
     paginator = Paginator(jobs, 10)
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
 
-    return render(request, "job_list.html", {"page_obj": page_obj})
+    return render(request, "job_list.html", {
+        "page_obj": page_obj,
+        "jobs": jobs
+        })
 
 
 @login_required
@@ -162,37 +178,70 @@ def edit_service_request(request, job_id):
 
 @login_required
 def job_applicants(request, job_id):
+    # Fetch the job and ensure it's associated with the logged-in OEM user
     job = get_object_or_404(ServiceRequest, id=job_id, oem=request.user)
-    applicants = JobApplication.objects.filter(request=job)  # Fix: Use `request=job`
+    
+    # Fetch the applicants for this job (assuming `request` is the ForeignKey to ServiceRequest)
+    applicants = JobApplication.objects.filter(request=job)
+    
+    # Optionally, you could also fetch additional info, like the total number of applicants
+    total_applicants = applicants.count()
 
-    return render(request, "job_applicants.html", {"job": job, "applicants": applicants})
+    # Render the template with the job details and applicants list
+    return render(request, "job_applicants.html", {
+        "job": job,
+        "applicants": applicants,
+        "total_applicants": total_applicants,  # Include the total number of applicants
+    })
 
 
+
+from django.shortcuts import redirect
+from django.urls import reverse
 
 @login_required
 def create_service_request(request):
     if request.method == "POST":
-        title = request.POST["title"]
-        description = request.POST["description"]
-        machine_details = request.POST["machine_details"]
-        service_type = request.POST["service_type"]
-        budget = request.POST["budget"]
+        # Get form data with safe defaults
+        title = request.POST.get("title", "").strip()
+        description = request.POST.get("description", "").strip()
+        service_type = request.POST.get("service_type", "").strip()
         
-        # Add validation here
-        if not title or not description or not machine_details or not service_type or not budget:
-            return render(request, "service_request_form.html", {"error": "All fields are required."})
-        
-        ServiceRequest.objects.create(
-            oem=request.user,
-            title=title,
-            description=description,
-            machine_details=machine_details,
-            service_type=service_type,
-            budget=budget,
-            status="Open"
-        )
-        return redirect("dashboard")  # Redirect to dashboard after submitting the request
+        try:
+            budget = float(request.POST.get("budget", 0))
+        except ValueError:
+            return render(request, "service_requests/create.html", {
+                "error": "Please enter a valid budget amount.",
+                "form_data": request.POST  # Return form data for re-population
+            })
+
+        # Validation
+        if not all([title, description, service_type, budget > 0]):
+            return render(request, "service_request_form.html", {
+                "error": "All fields are required and budget must be greater than 0.",
+                "form_data": request.POST
+            })
+
+        try:
+            ServiceRequest.objects.create(
+                oem=request.user,
+                title=title,
+                description=description,
+                service_type=service_type,
+                budget=budget,
+                status="Open"
+            )
+            messages.success(request, "Service request created successfully!")
+            return redirect(reverse("oem_dashboard"))
+        except Exception as e:
+            return render(request, "service_request_form.html", {
+                "error": f"Error creating service request: {str(e)}",
+                "form_data": request.POST
+            })
+
     return render(request, "service_request_form.html")
+
+
 
 @login_required
 def hire_technician(request, job_id, technician_id):
@@ -237,5 +286,8 @@ def ongoing_jobs(request):
 
 @login_required
 def applied_jobs(request):
-    applied_jobs_list = JobApplication.objects.filter(user=request.user)  # Get jobs applied by the logged-in user
+    # Get all job applications for the logged-in user
+    applied_jobs_list = JobApplication.objects.filter(technician=request.user)
+    
+    # Pass job details to the template, along with the job applications
     return render(request, "oem/applied_jobs.html", {"applied_jobs": applied_jobs_list})

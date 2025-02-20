@@ -65,20 +65,31 @@
 <body class="bg-gray-100">
 
   <nav class="bg-blue-600 p-4 text-white">
-    <div class="container mx-auto flex justify-between">
-        <a href="/oem" class="text-xl font-semibold">OEM</a>
+    <div class="container mx-auto flex justify-between items-center">
+        
+        <!-- Left side: Dashboard -->
         <div>
             {% if user.is_authenticated %}
-                {% if request.path == '/dashboard/' %} 
-                    <a href="{% url 'logout' %}" class="px-4 py-2 bg-red-500 rounded">Logout</a>
-                {% else %}
-                    <a href="{% url 'logout' %}" class="px-4 py-2 bg-red-500 rounded">Logout</a>
+                {% if user.role == "OEM" %}
+                    <a href="{% url 'oem_dashboard' %}" class="px-4 py-2 bg-white text-blue-600 rounded hover:bg-gray-200">Dashboard</a>
+                {% elif user.role == "Technician" %}
+                    <a href="{% url 'technician_dashboard' %}" class="px-4 py-2 bg-white text-blue-600 rounded hover:bg-gray-200">Dashboard</a>
                 {% endif %}
+            {% else %}
+                <a href="{% url 'homepage' %}" class="px-4 py-2 bg-white text-blue-600 rounded hover:bg-gray-200">OEM</a>
+            {% endif %}
+        </div>
+
+        <!-- Right side: Auth buttons -->
+        <div class="flex space-x-4">
+            {% if user.is_authenticated %}
+                <a href="{% url 'logout' %}" class="px-4 py-2 bg-red-500 rounded">Logout</a>
             {% else %}
                 <a href="{% url 'login' %}" class="px-4 py-2 bg-green-500 rounded">Login</a>
                 <a href="{% url 'register' %}" class="px-4 py-2 bg-yellow-500 rounded">Register</a>
             {% endif %}
         </div>
+
     </div>
 </nav>
 
@@ -86,6 +97,25 @@
     <div class="container mx-auto mt-10">
         {% block content %}{% endblock %}
     </div>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+    <!-- Footer Section -->
+<footer class="bg-gray-800 text-white text-center py-4 fixed bottom-0 left-0 w-full">
+  <div class="container mx-auto">
+      <p class="mb-2">&copy; 2025 OEM. All Rights Reserved.</p>
+      <div>
+          <a href="/about" class="text-white hover:text-gray-400 mx-3">About</a>
+          <a href="/privacy" class="text-white hover:text-gray-400 mx-3">Privacy Policy</a>
+          <a href="/terms" class="text-white hover:text-gray-400 mx-3">Terms of Service</a>
+      </div>
+  </div>
+</footer>
+
 
     
     <script>
