@@ -78,7 +78,9 @@ def g_svr(request):
             "localContact": request.POST.get('localContact'),
             "phoneNumber": request.POST.get('phoneNumber'),
             "partNumber": request.POST.get('partNumber'),
-            "serialNumber": request.POST.get('serialNumber')
+            "serialNumber": request.POST.get('serialNumber'),
+            "comments": request.POST.get('comments')
+            
         }
 
         return render(request, 'svr/g_svr.html', context)
