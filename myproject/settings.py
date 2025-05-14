@@ -37,7 +37,6 @@ INTERNAL_IPS = [
 
 INSTALLED_APPS = [
     "django.contrib.admin",
-    "oem",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
@@ -47,8 +46,10 @@ INSTALLED_APPS = [
     "tailwind",
     "django_browser_reload",
     "cvmaker",
+    "ans"
 ]
 
+LOGIN_URL = '/login/'
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -128,10 +129,9 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     BASE_DIR / "static", 
 ]
-
+STATIC_ROOT = BASE_DIR / "staticfiles"
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 DEBUG = True
-AUTH_USER_MODEL = 'oem.User'  # This should match your app's user model
