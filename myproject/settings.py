@@ -46,7 +46,6 @@ INSTALLED_APPS = [
     "tailwind",
     "django_browser_reload",
     "cvmaker",
-    "ans"
 ]
 
 LOGIN_URL = '/login/'
