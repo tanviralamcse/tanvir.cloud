@@ -79,8 +79,12 @@ def g_svr(request):
             "phoneNumber": request.POST.get('phoneNumber'),
             "partNumber": request.POST.get('partNumber'),
             "serialNumber": request.POST.get('serialNumber'),
+<<<<<<< Updated upstream
             "comments": request.POST.get('comments')
             
+=======
+            "comments":request.POST.get('comments'),
+>>>>>>> Stashed changes
         }
 
         return render(request, 'svr/g_svr.html', context)
