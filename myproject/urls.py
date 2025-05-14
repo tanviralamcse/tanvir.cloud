@@ -9,7 +9,6 @@ urlpatterns = [
     path("__reload__/", include("django_browser_reload.urls")),
     path("blog/", include("blog.urls")),
     path("cvmaker/", include("cvmaker.urls")) ,
-    path("ans/", include("ans.urls")),
 ]
 
 
